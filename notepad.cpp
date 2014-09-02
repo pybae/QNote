@@ -12,3 +12,8 @@ Notepad::~Notepad()
 {
     delete ui;
 }
+
+void Notepad::on_pushButton_clicked()
+{
+    qApp->quit();
+}
