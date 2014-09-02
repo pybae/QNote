@@ -1,4 +1,4 @@
 notetaking
 ==========
 
-A note taking app for LInux
+A note taking app for Linux
