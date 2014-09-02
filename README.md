@@ -12,3 +12,9 @@ Feature List TODO
 * Dropbox Integration
 * Automatic Saving of files
 * Inline latex substitution
+
+Proposed Features
+=================
+
+* Conversion from actual notes (using Camera and OpenCV), perhaps something like
+  [this](http://detexify.kirelabs.org/classify.html) for latex
