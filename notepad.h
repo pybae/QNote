@@ -16,7 +16,7 @@ public:
     ~Notepad();
 
 private slots:
-    void on_pushButton_clicked();
+    void on_quitButton_clicked();
 
 private:
     Ui::Notepad *ui;
