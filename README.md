@@ -23,5 +23,6 @@ Style Guides
 ===========
 
 Style will be enforced (to the best of our abilities) to the following guides:
+
     * http://qt-project.org/wiki/Qt_Coding_Style
     * http://google-styleguide.googlecode.com/svn/trunk/cppguide.xml
