@@ -18,6 +18,8 @@ public:
 private slots:
     void on_quitButton_clicked();
 
+    void on_actionOpen_triggered();
+
 private:
     Ui::Notepad *ui;
 };
