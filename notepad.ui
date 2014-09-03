@@ -108,7 +108,7 @@
     <string>Save As Other Note File</string>
    </property>
    <property name="shortcut">
-    <string/>
+    <string>Ctrl+Shift+S</string>
    </property>
   </action>
   <action name="actionPrint">

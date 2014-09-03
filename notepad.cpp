@@ -40,3 +40,23 @@ void Notepad::on_actionOpen_triggered()
         file.close();
     }
 }
+
+// Called when the "Save As" option is triggered
+void Notepad::on_actionSaveAs_triggered()
+{
+    QString fileName = QFileDialog::getSaveFileName(this, tr("Save File"), QString(),
+            tr("Text Files (*.txt);;C++ Files (*.cpp *.h)"));
+
+    if (!fileName.isEmpty()) {
+        QFile file(fileName);
+        if (!file.open(QIODevice::WriteOnly)) {
+            // error message
+            return;
+        } else {
+            QTextStream stream(&file);
+            stream << ui->mainTextEdit->toPlainText();
+            stream.flush();
+            file.close();
+        }
+    }
+}

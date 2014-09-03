@@ -20,6 +20,8 @@ private slots:
 
     void on_actionOpen_triggered();
 
+    void on_actionSaveAs_triggered();
+
 private:
     Ui::Notepad *ui;
 };
