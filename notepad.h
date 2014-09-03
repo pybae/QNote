@@ -16,8 +16,6 @@ public:
     ~Notepad();
 
 private slots:
-    void on_quitButton_clicked();
-
     void on_actionOpen_triggered();
 
     void on_actionSaveAs_triggered();

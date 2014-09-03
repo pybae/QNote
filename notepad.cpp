@@ -17,12 +17,6 @@ Notepad::~Notepad()
     delete ui;
 }
 
-// Called when the main quit button is clicked
-void Notepad::on_quitButton_clicked()
-{
-    qApp->quit();
-}
-
 // Called when the "New" option is triggered by C-n or menu
 void Notepad::on_actionNew_triggered()
 {
