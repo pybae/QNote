@@ -22,6 +22,16 @@ private slots:
 
     void on_actionSaveAs_triggered();
 
+    void on_mainTextEdit_textChanged();
+
+    void on_actionNew_triggered();
+
+    void on_actionSave_triggered();
+
+    void on_actionPrint_triggered();
+
+    void on_actionExit_triggered();
+
 private:
     Ui::Notepad *ui;
 };
