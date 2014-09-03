@@ -83,6 +83,7 @@ void Notepad::on_actionPrint_triggered()
 void Notepad::on_actionExit_triggered()
 {
     // TODO need to check if there are any unsaved buffers
+    qApp->quit();
 }
 
 // Triggered when the mainTextEdit region has its text changed
