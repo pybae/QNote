@@ -52,6 +52,7 @@ void Notepad::on_actionOpen_triggered()
         ui->mainTextEdit->setText(in.readAll());
         file.close();
     }
+
     printf("what is working_file: %s\n", working_file_name.toStdString().c_str());
 }
 
@@ -59,16 +60,9 @@ void Notepad::on_actionOpen_triggered()
 void Notepad::on_actionSave_triggered()
 {
     // TODO
-}
-
-// Called when the "Save As" option is triggered by C-S (Ctrl shift s) or menu
-void Notepad::on_actionSaveAs_triggered()
-{
-    QString fileName = QFileDialog::getSaveFileName(this, tr("Save File"), QString(),
-            tr("Text Files (*.txt);;C++ Files (*.cpp *.h)"));
-
-    if (!fileName.isEmpty()) {
-        QFile file(fileName);
+    // can refactor both the save methods
+    if (!working_file_name.isEmpty()) {
+        QFile file(working_file_name);
         if (!file.open(QIODevice::WriteOnly)) {
             // error message
             return;
@@ -79,6 +73,17 @@ void Notepad::on_actionSaveAs_triggered()
             file.close();
         }
     }
+    else {
+        printf("File not intiailized yet\n");
+    }
+}
+
+// Called when the "Save As" option is triggered by C-S (Ctrl shift s) or menu
+void Notepad::on_actionSaveAs_triggered()
+{
+    QString fileName = QFileDialog::getSaveFileName(this, tr("Save File"), QString(),
+            tr("Text Files (*.txt);;C++ Files (*.cpp *.h)"));
+
 }
 
 // Called when the "Print" option is triggered by C-p or menu
