@@ -4,6 +4,7 @@
 #include <QFile>
 #include <QMessageBox>
 #include <QTextStream>
+#include <iostream>
 
 Notepad::Notepad(QWidget *parent) :
     QMainWindow(parent),
@@ -26,19 +27,27 @@ void Notepad::on_actionNew_triggered()
 // Called when the "Open" option is triggered by C-o or menu
 void Notepad::on_actionOpen_triggered()
 {
-    QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"), QString(),
-            tr("Text Files (*.txt);;C++ Files (*.cpp *.h)"));
+    // Temporarily changing to a directory
+    QDir working_dir("~/Documents");
+    QStringList dir_list = working_dir.entryList();
 
-    if (!fileName.isEmpty()) {
-        QFile file(fileName);
-        if (!file.open(QIODevice::ReadOnly)) {
-            QMessageBox::critical(this, tr("Error"), tr("Could not open file"));
-            return;
-        }
-        QTextStream in(&file);
-        ui->mainTextEdit->setText(in.readAll());
-        file.close();
+    QStringListIterator it(dir_list);
+    while (it.hasNext()) {
+        std::cout << it.next().toStdString() << std::endl;
     }
+//    QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"), QString(),
+//            tr("Text Files (*.txt);;C++ Files (*.cpp *.h)"));
+
+//    if (!fileName.isEmpty()) {
+//        QFile file(fileName);
+//        if (!file.open(QIODevice::ReadOnly)) {
+//            QMessageBox::critical(this, tr("Error"), tr("Could not open file"));
+//            return;
+//        }
+//        QTextStream in(&file);
+//        ui->mainTextEdit->setText(in.readAll());
+//        file.close();
+//    }
 }
 
 // Called when the "Save" option is triggered by C-s or menu
