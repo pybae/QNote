@@ -4,6 +4,7 @@
 #include <QFile>
 #include <QMessageBox>
 #include <QTextStream>
+#include <QtPrintSupport>
 #include <iostream>
 
 Notepad::Notepad(QWidget *parent) :
@@ -116,7 +117,13 @@ void Notepad::on_actionSaveAs_triggered()
 // Called when the "Print" option is triggered by C-p or menu
 void Notepad::on_actionPrint_triggered()
 {
-    // TODO
+//     QPrinter printer;
+
+//     QPrintDialog dialog(&printer, this);
+//     dialog.setWindowTitle(tr("Print Document"));
+//     if (dialog.exec() != QDialog::Accepted) {
+//         return;
+//     }
 }
 
 // Called when the "Exit" option is triggered by C-q or menu
