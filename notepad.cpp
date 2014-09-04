@@ -42,15 +42,17 @@ void Notepad::on_actionOpen_triggered()
 
     if (!fileName.isEmpty()) {
         QFile file(fileName);
+        working_file_name = file.fileName();
+
         if (!file.open(QIODevice::ReadOnly)) {
             QMessageBox::critical(this, tr("Error"), tr("Could not open file"));
             return;
         }
-        working_file = file;
         QTextStream in(&file);
         ui->mainTextEdit->setText(in.readAll());
         file.close();
     }
+    printf("what is working_file: %s\n", working_file_name.toStdString().c_str());
 }
 
 // Called when the "Save" option is triggered by C-s or menu
