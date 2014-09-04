@@ -38,7 +38,7 @@ void Notepad::saveFile(QString fileName)
             return;
         } else {
             QTextStream stream(&file);
-            stream << ui->mainTextEdit->toPlainText();
+            stream << ui->mainTextEdit->toPlainText() << "\n";
             stream.flush();
             file.close();
         }
@@ -115,5 +115,5 @@ void Notepad::on_actionExit_triggered()
 void Notepad::on_mainTextEdit_textChanged()
 {
     // Save the current buffer
-    Notepad::on_actionSave_triggered();
+    // Notepad::on_actionSave_triggered();
 }
