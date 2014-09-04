@@ -16,10 +16,6 @@ Notepad::Notepad(QWidget *parent) :
     working_dir = QDir("/Users/pybae/Documents");
     file_list = working_dir.entryList();
 
-    QStringListIterator it(file_list);
-    while (it.hasNext()) {
-        std::cout << it.next().toStdString() << std::endl;
-    }
     ui->setupUi(this);
 }
 
