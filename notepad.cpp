@@ -10,6 +10,15 @@ Notepad::Notepad(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::Notepad)
 {
+    // TODO, not sure where to organize instantiating methods
+    // Temporarily changing to a directory
+    QDir working_dir("/Users/pybae/Documents");
+    file_list = working_dir.entryList();
+
+    QStringListIterator it(file_list);
+    while (it.hasNext()) {
+        std::cout << it.next().toStdString() << std::endl;
+    }
     ui->setupUi(this);
 }
 
@@ -27,14 +36,7 @@ void Notepad::on_actionNew_triggered()
 // Called when the "Open" option is triggered by C-o or menu
 void Notepad::on_actionOpen_triggered()
 {
-    // Temporarily changing to a directory
-    QDir working_dir("/Users/pybae/Documents");
-    QStringList dir_list = working_dir.entryList();
 
-    QStringListIterator it(dir_list);
-    while (it.hasNext()) {
-        std::cout << it.next().toStdString() << std::endl;
-    }
 //    QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"), QString(),
 //            tr("Text Files (*.txt);;C++ Files (*.cpp *.h)"));
 

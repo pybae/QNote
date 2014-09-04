@@ -2,6 +2,7 @@
 #define NOTEPAD_H
 
 #include <QMainWindow>
+#include <QDir>
 
 namespace Ui {
 class Notepad;
@@ -14,6 +15,10 @@ class Notepad : public QMainWindow
 public:
     explicit Notepad(QWidget *parent = 0);
     ~Notepad();
+
+private:
+    QDir working_dir;
+    QStringList file_list;
 
 private slots:
     void on_actionOpen_triggered();
