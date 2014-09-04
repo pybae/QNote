@@ -13,6 +13,8 @@ Notepad::Notepad(QWidget *parent) :
     // TODO, not sure where to organize instantiating methods
     // Temporarily changing to a directory
     QDir working_dir("/Users/pybae/Documents");
+    printf("What is the working dir: %s\n", working_dir.absolutePath().toStdString().c_str());
+
     file_list = working_dir.entryList();
 
     QStringListIterator it(file_list);
@@ -36,20 +38,20 @@ void Notepad::on_actionNew_triggered()
 // Called when the "Open" option is triggered by C-o or menu
 void Notepad::on_actionOpen_triggered()
 {
+    printf("What is the working dir: %s\n", working_dir.absolutePath().toStdString().c_str());
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"), working_dir.absolutePath(),
+            tr("Text Files (*.txt);;C++ Files (*.cpp *.h)"));
 
-//    QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"), QString(),
-//            tr("Text Files (*.txt);;C++ Files (*.cpp *.h)"));
-
-//    if (!fileName.isEmpty()) {
-//        QFile file(fileName);
-//        if (!file.open(QIODevice::ReadOnly)) {
-//            QMessageBox::critical(this, tr("Error"), tr("Could not open file"));
-//            return;
-//        }
-//        QTextStream in(&file);
-//        ui->mainTextEdit->setText(in.readAll());
-//        file.close();
-//    }
+    if (!fileName.isEmpty()) {
+        QFile file(fileName);
+        if (!file.open(QIODevice::ReadOnly)) {
+            QMessageBox::critical(this, tr("Error"), tr("Could not open file"));
+            return;
+        }
+        QTextStream in(&file);
+        ui->mainTextEdit->setText(in.readAll());
+        file.close();
+    }
 }
 
 // Called when the "Save" option is triggered by C-s or menu
