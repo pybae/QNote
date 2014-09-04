@@ -17,6 +17,7 @@ public:
     ~Notepad();
 
 private:
+    QFile working_file;
     QDir working_dir;
     QStringList file_list;
 

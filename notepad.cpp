@@ -13,8 +13,6 @@ Notepad::Notepad(QWidget *parent) :
     // TODO, not sure where to organize instantiating methods
     // Temporarily changing to a directory
     working_dir = QDir("/Users/pybae/Documents");
-    printf("What is the working dir: %s\n", working_dir.absolutePath().toStdString().c_str());
-
     file_list = working_dir.entryList();
 
     QStringListIterator it(file_list);
@@ -48,6 +46,7 @@ void Notepad::on_actionOpen_triggered()
             QMessageBox::critical(this, tr("Error"), tr("Could not open file"));
             return;
         }
+        working_file = file;
         QTextStream in(&file);
         ui->mainTextEdit->setText(in.readAll());
         file.close();
