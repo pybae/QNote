@@ -28,7 +28,7 @@ void Notepad::on_actionNew_triggered()
 void Notepad::on_actionOpen_triggered()
 {
     // Temporarily changing to a directory
-    QDir working_dir("~/Documents");
+    QDir working_dir("/Users/pybae/Documents");
     QStringList dir_list = working_dir.entryList();
 
     QStringListIterator it(dir_list);
