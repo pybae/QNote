@@ -12,7 +12,7 @@ Notepad::Notepad(QWidget *parent) :
 {
     // TODO, not sure where to organize instantiating methods
     // Temporarily changing to a directory
-    QDir working_dir("/Users/pybae/Documents");
+    working_dir = QDir("/Users/pybae/Documents");
     printf("What is the working dir: %s\n", working_dir.absolutePath().toStdString().c_str());
 
     file_list = working_dir.entryList();
