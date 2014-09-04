@@ -30,7 +30,21 @@ Notepad::~Notepad()
 // Called when the "New" option is triggered by C-n or menu
 void Notepad::on_actionNew_triggered()
 {
-    // TODO
+    QString fileName = QFileDialog::getSaveFileName(this, tr("Save File"), working_dir.absolutePath(),
+            tr("Text Files (*.txt);;C++ Files (*.cpp *.h)"));
+    if (!fileName.isEmpty()) {
+        QFile file(fileName);
+        working_file_name = file.fileName();
+        if (!file.open(QIODevice::WriteOnly)) {
+            // error message
+            return;
+        } else {
+            QTextStream stream(&file);
+            stream << ui->mainTextEdit->toPlainText();
+            stream.flush();
+            file.close();
+        }
+    }
 }
 
 // Called when the "Open" option is triggered by C-o or menu
