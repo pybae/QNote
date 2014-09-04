@@ -28,14 +28,11 @@ Notepad::~Notepad()
     delete ui;
 }
 
-// Called when the "New" option is triggered by C-n or menu
-void Notepad::on_actionNew_triggered()
+// A helper method to save a file, given a fileName in the current working directory
+void Notepad::saveFile(QString fileName)
 {
-    QString fileName = QFileDialog::getSaveFileName(this, tr("Save File"), working_dir.absolutePath(),
-            tr("Text Files (*.txt);;C++ Files (*.cpp *.h)"));
     if (!fileName.isEmpty()) {
         QFile file(fileName);
-        working_file_name = file.fileName();
         if (!file.open(QIODevice::WriteOnly)) {
             // error message
             return;
@@ -46,12 +43,23 @@ void Notepad::on_actionNew_triggered()
             file.close();
         }
     }
+    else {
+        printf("File does not exist\n");
+    }
+}
+
+// Called when the "New" option is triggered by C-n or menu
+void Notepad::on_actionNew_triggered()
+{
+    QString newFileName = QFileDialog::getSaveFileName(this, tr("New File"), working_dir.absolutePath(),
+            tr("Text Files (*.txt);;C++ Files (*.cpp *.h)"));
+    saveFile(newFileName);
+    working_file_name = newFileName;
 }
 
 // Called when the "Open" option is triggered by C-o or menu
 void Notepad::on_actionOpen_triggered()
 {
-    printf("What is the working dir: %s\n", working_dir.absolutePath().toStdString().c_str());
     QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"), working_dir.absolutePath(),
             tr("Text Files (*.txt);;C++ Files (*.cpp *.h)"));
 
@@ -67,30 +75,12 @@ void Notepad::on_actionOpen_triggered()
         ui->mainTextEdit->setText(in.readAll());
         file.close();
     }
-
-    printf("what is working_file: %s\n", working_file_name.toStdString().c_str());
 }
 
 // Called when the "Save" option is triggered by C-s or menu
 void Notepad::on_actionSave_triggered()
 {
-    // TODO
-    // can refactor both the save methods
-    if (!working_file_name.isEmpty()) {
-        QFile file(working_file_name);
-        if (!file.open(QIODevice::WriteOnly)) {
-            // error message
-            return;
-        } else {
-            QTextStream stream(&file);
-            stream << ui->mainTextEdit->toPlainText();
-            stream.flush();
-            file.close();
-        }
-    }
-    else {
-        printf("File not intiailized yet\n");
-    }
+    saveFile(working_file_name);
 }
 
 // Called when the "Save As" option is triggered by C-S (Ctrl shift s) or menu
@@ -98,20 +88,7 @@ void Notepad::on_actionSaveAs_triggered()
 {
     QString fileName = QFileDialog::getSaveFileName(this, tr("Save File"), QString(),
             tr("Text Files (*.txt);;C++ Files (*.cpp *.h)"));
-    // can refactor both the save methods
-    if (!fileName.isEmpty()) {
-        QFile file(fileName);
-        if (!file.open(QIODevice::WriteOnly)) {
-            // error message
-            return;
-        } else {
-            QTextStream stream(&file);
-            stream << ui->mainTextEdit->toPlainText();
-            stream.flush();
-            file.close();
-        }
-    }
-
+    saveFile(fileName);
 }
 
 // Called when the "Print" option is triggered by C-p or menu

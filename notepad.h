@@ -17,9 +17,11 @@ public:
     ~Notepad();
 
 private:
+    Ui::Notepad *ui;
     QString working_file_name;
     QDir working_dir;
     QStringList file_list;
+    void saveFile(QString fileName);
 
 private slots:
     void on_actionOpen_triggered();
@@ -36,8 +38,6 @@ private slots:
 
     void on_actionExit_triggered();
 
-private:
-    Ui::Notepad *ui;
 };
 
 #endif // NOTEPAD_H
