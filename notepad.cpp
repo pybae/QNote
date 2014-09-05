@@ -57,7 +57,7 @@ void Notepad::on_actionNew_triggered()
 void Notepad::on_actionOpen_triggered()
 {
     QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"), working_dir.absolutePath(),
-            tr("Text Files (*.txt);;C++ Files (*.cpp *.h)"));
+            tr("All Files (*.*);;Text Files (*.txt);;RTF Filest(*.rtf);;C++ Files (*.cpp *.h)"));
 
     if (!fileName.isEmpty()) {
         QFile file(fileName);
