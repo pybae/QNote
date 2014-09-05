@@ -4,6 +4,7 @@
 #include <QFile>
 #include <QMessageBox>
 #include <QTextStream>
+#include <QListWidget>
 #include <QtPrintSupport>
 
 Notepad::Notepad(QWidget *parent) :

@@ -13,8 +13,10 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        notepad.cpp
+        notepad.cpp \
+    fileviewmodel.cpp
 
-HEADERS  += notepad.h
+HEADERS  += notepad.h \
+    fileviewmodel.h
 
 FORMS    += notepad.ui
