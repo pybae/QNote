@@ -14,7 +14,6 @@ int FileViewModel::rowCount(const QModelIndex &parent) const
     return file_list.size();
 }
 
-
 QVariant FileViewModel::data(const QModelIndex &index, int role) const
 {
     printf("Inside the data method\n");
