@@ -21,8 +21,8 @@ Notepad::Notepad(QWidget *parent) :
 
     ui->setupUi(this);
 
-    FileViewModel fileModel(files, 0);
-    ui->listView->setModel(&fileModel);
+    FileViewModel *fileModel = new FileViewModel(files, 0);
+    ui->listView->setModel(fileModel);
     ui->listView->show();
 }
 
