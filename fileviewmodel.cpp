@@ -4,12 +4,13 @@
 FileViewModel::FileViewModel(QObject *parent) :
     QAbstractListModel(parent)
 {
+
     return;
 }
 
 int FileViewModel::rowCount(const QModelIndex &parent) const
 {
-   return 2;
+   return 0;
 }
 
 

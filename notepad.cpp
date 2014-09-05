@@ -6,6 +6,9 @@
 #include <QTextStream>
 #include <QListWidget>
 #include <QtPrintSupport>
+#include <QListView>
+#include <fileviewmodel.h>
+
 
 Notepad::Notepad(QWidget *parent) :
     QMainWindow(parent),
@@ -15,6 +18,11 @@ Notepad::Notepad(QWidget *parent) :
     // Temporarily changing to a directory
     working_dir = QDir("/Users/pybae/Documents");
     file_list = working_dir.entryList();
+
+    QListView fileView;
+
+    FileViewModel fileModel(0);
+    fileView.setModel(&fileModel);
 
     ui->setupUi(this);
 }
