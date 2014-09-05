@@ -4,17 +4,19 @@
 FileViewModel::FileViewModel(QStringList files, QObject *parent) :
     QAbstractListModel(parent)
 {
+    printf("inside instantiator?\n");
     file_list = files;
-    return;
 }
 
 int FileViewModel::rowCount(const QModelIndex &parent) const
 {
-   return file_list.size();
+    printf("inside here?\n");
+    return file_list.size();
 }
 
 
 QVariant FileViewModel::data(const QModelIndex &index, int role) const
 {
+    printf("Inside the data method\n");
     return QString("haha");
 }
