@@ -17,14 +17,11 @@ Notepad::Notepad(QWidget *parent) :
     // TODO, not sure where to organize instantiating methods
     // Temporarily changing to a directory
     working_dir = QDir("/Users/pybae/Documents");
-    file_list = working_dir.entryList();
-
-    QListView fileView;
-
-    FileViewModel fileModel(0);
-    fileView.setModel(&fileModel);
+    QStringList files = working_dir.entryList();
 
     ui->setupUi(this);
+    FileViewModel fileModel(files, 0);
+    ui->listView->setModel(&fileModel);
 }
 
 Notepad::~Notepad()

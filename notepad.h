@@ -20,7 +20,6 @@ private:
     Ui::Notepad *ui;
     QString working_file_name;
     QDir working_dir;
-    QStringList file_list;
     void saveFile(QString fileName);
 
 private slots:
