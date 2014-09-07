@@ -24,6 +24,8 @@ Notepad::Notepad(QWidget *parent) :
     FileViewModel *fileModel = new FileViewModel(files, 0);
     ui->listView->setModel(fileModel);
     ui->listView->show();
+
+    printf("%d\n", fileModel->rowCount());
 }
 
 Notepad::~Notepad()
