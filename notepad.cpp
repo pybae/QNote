@@ -14,6 +14,24 @@ Notepad::Notepad(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::Notepad)
 {
+    readInDefaultDirectory();
+    QStringList files = working_dir.entryList(QDir::AllEntries | QDir::NoDotAndDotDot);
+
+    ui->setupUi(this);
+
+    fileModel = new FileViewModel(files, 0);
+    ui->listView->setModel(fileModel);
+    ui->listView->show();
+}
+
+Notepad::~Notepad()
+{
+    delete ui;
+}
+
+// A helper method to read in the default directory
+void Notepad::readInDefaultDirectory()
+{
     QFile metadata(QDir::homePath() + "/.notetakinginfo");
 
     if (!metadata.exists()) {
@@ -41,18 +59,6 @@ Notepad::Notepad(QWidget *parent) :
         working_dir = QDir(in.readLine());
         metadata.close();
     }
-    QStringList files = working_dir.entryList(QDir::AllEntries | QDir::NoDotAndDotDot);
-
-    ui->setupUi(this);
-
-    fileModel = new FileViewModel(files, 0);
-    ui->listView->setModel(fileModel);
-    ui->listView->show();
-}
-
-Notepad::~Notepad()
-{
-    delete ui;
 }
 
 // A helper method to save a file, given a fileName in the current working directory

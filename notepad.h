@@ -23,6 +23,7 @@ private:
     QDir working_dir;
     FileViewModel *fileModel;
     void saveFile(QString fileName);
+    void readInDefaultDirectory();
 
 private slots:
     void on_actionOpen_triggered();
