@@ -14,9 +14,33 @@ Notepad::Notepad(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::Notepad)
 {
-    // TODO, not sure where to organize instantiating methods
-    // Temporarily changing to a directory
-    working_dir = QDir("/Users/pybae/Documents");
+    QFile metadata(QDir::homePath() + "/.notetakinginfo");
+
+    if (!metadata.exists()) {
+        // TODO send a message box
+        working_dir = QDir(QFileDialog::getExistingDirectory(this, tr("Default Directory"),
+                                                        QDir::homePath(),
+                                                        QFileDialog::ShowDirsOnly
+                                                        | QFileDialog::DontResolveSymlinks));
+        if (!metadata.open(QIODevice::WriteOnly)) {
+            QMessageBox::critical(this, tr("Error"), tr("Could not write to file"));
+            return;
+        } else {
+            QTextStream stream(&metadata);
+            stream << working_dir.absolutePath() << "\n";
+            stream.flush();
+            metadata.close();
+        }
+    }
+    else {
+        if (!metadata.open(QIODevice::ReadOnly)) {
+            QMessageBox::critical(this, tr("Error"), tr("Could not read file"));
+            return;
+        }
+        QTextStream in(&metadata);
+        working_dir = QDir(in.readLine());
+        metadata.close();
+    }
     QStringList files = working_dir.entryList(QDir::AllEntries | QDir::NoDotAndDotDot);
 
     ui->setupUi(this);
@@ -70,7 +94,6 @@ void Notepad::on_actionOpen_triggered()
 {
     QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"), working_dir.absolutePath(),
             tr("All Files (*.*);;Text Files (*.txt);;RTF Files(*.rtf);;C++ Files (*.cpp *.h)"));
-
     if (!fileName.isEmpty()) {
         QFile file(fileName);
         working_file_name = file.fileName();
@@ -88,7 +111,6 @@ void Notepad::on_actionOpen_triggered()
 // Called when the "Save" option is triggered by C-s or menu
 void Notepad::on_actionSave_triggered()
 {
-    printf("what is the working_file_name: %s\n", working_file_name.toStdString().c_str());
     saveFile(working_file_name);
 }
 
