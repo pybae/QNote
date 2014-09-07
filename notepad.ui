@@ -177,6 +177,11 @@
     <string>it</string>
    </property>
   </action>
+  <action name="actionHello_World">
+   <property name="text">
+    <string>Hello World</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources/>

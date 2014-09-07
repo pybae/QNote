@@ -17,7 +17,7 @@ Notepad::Notepad(QWidget *parent) :
     // TODO, not sure where to organize instantiating methods
     // Temporarily changing to a directory
     working_dir = QDir("/Users/pybae/Documents");
-    QStringList files = working_dir.entryList();
+    QStringList files = working_dir.entryList(QDir::AllEntries | QDir::NoDotAndDotDot);
 
     ui->setupUi(this);
 
