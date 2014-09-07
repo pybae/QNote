@@ -8,7 +8,7 @@
 #include <QtPrintSupport>
 #include <QListView>
 #include <fileviewmodel.h>
-
+#include <QLabel>
 
 Notepad::Notepad(QWidget *parent) :
     QMainWindow(parent),
@@ -21,7 +21,7 @@ Notepad::Notepad(QWidget *parent) :
 
     ui->setupUi(this);
 
-    FileViewModel *fileModel = new FileViewModel(files, 0);
+    fileModel = new FileViewModel(files, 0);
     ui->listView->setModel(fileModel);
     ui->listView->show();
 }
@@ -57,6 +57,9 @@ void Notepad::on_actionNew_triggered()
     QString newFileName = QFileDialog::getSaveFileName(this, tr("New File"), working_dir.absolutePath(),
             tr("Text Files (*.txt);;C++ Files (*.cpp *.h)"));
     saveFile(newFileName);
+    if(fileModel->insertRow(fileModel->rowCount()))
+            fileModel->setData(fileModel->index(fileModel->rowCount(), 0),
+                               newFileName);
     working_file_name = newFileName;
 }
 

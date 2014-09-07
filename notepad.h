@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QDir>
+#include "fileviewmodel.h"
 
 namespace Ui {
 class Notepad;
@@ -20,6 +21,7 @@ private:
     Ui::Notepad *ui;
     QString working_file_name;
     QDir working_dir;
+    FileViewModel *fileModel;
     void saveFile(QString fileName);
 
 private slots:
@@ -36,6 +38,7 @@ private slots:
     void on_actionPrint_triggered();
 
     void on_actionExit_triggered();
+
     void on_actionAbout_triggered();
 };
 

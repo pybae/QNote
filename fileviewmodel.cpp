@@ -23,3 +23,16 @@ QVariant FileViewModel::data(const QModelIndex &index, int role) const
     else
         return QVariant();
 }
+
+bool FileViewModel::setData(const QModelIndex &index, const QVariant &value, int role)
+{
+    if (!index.isValid())
+        return false;
+    if (index.row() >= file_list.size())
+        return false;
+    if (role == Qt::EditRole) {
+        file_list.replace(index.row(), value.toString());
+        return true;
+    }
+    return false;
+}
