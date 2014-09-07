@@ -24,8 +24,6 @@ Notepad::Notepad(QWidget *parent) :
     FileViewModel *fileModel = new FileViewModel(files, 0);
     ui->listView->setModel(fileModel);
     ui->listView->show();
-
-    printf("%d\n", fileModel->rowCount());
 }
 
 Notepad::~Notepad()
@@ -66,7 +64,7 @@ void Notepad::on_actionNew_triggered()
 void Notepad::on_actionOpen_triggered()
 {
     QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"), working_dir.absolutePath(),
-            tr("All Files (*.*);;Text Files (*.txt);;RTF Filess(*.rtf);;C++ Files (*.cpp *.h)"));
+            tr("All Files (*.*);;Text Files (*.txt);;RTF Files(*.rtf);;C++ Files (*.cpp *.h)"));
 
     if (!fileName.isEmpty()) {
         QFile file(fileName);
