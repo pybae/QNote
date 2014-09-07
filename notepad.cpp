@@ -88,6 +88,7 @@ void Notepad::on_actionOpen_triggered()
 // Called when the "Save" option is triggered by C-s or menu
 void Notepad::on_actionSave_triggered()
 {
+    printf("what is the working_file_name: %s\n", working_file_name.toStdString().c_str());
     saveFile(working_file_name);
 }
 
@@ -124,6 +125,23 @@ void Notepad::on_mainTextEdit_textChanged()
 {
     // Save the current buffer
     // Notepad::on_actionSave_triggered();
+}
+
+void Notepad::on_listView_clicked(const QModelIndex &index)
+{
+    QString fileName = working_dir.absoluteFilePath(fileModel->data(index).toString());
+    if (!fileName.isEmpty()) {
+        QFile file(fileName);
+        working_file_name = file.fileName();
+
+        if (!file.open(QIODevice::ReadOnly)) {
+            QMessageBox::critical(this, tr("Error"), tr("Could not open file"));
+            return;
+        }
+        QTextStream in(&file);
+        ui->mainTextEdit->setText(in.readAll());
+        file.close();
+    }
 }
 
 void Notepad::on_actionAbout_triggered()
