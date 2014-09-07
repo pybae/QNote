@@ -57,9 +57,8 @@ void Notepad::on_actionNew_triggered()
     QString newFileName = QFileDialog::getSaveFileName(this, tr("New File"), working_dir.absolutePath(),
             tr("Text Files (*.txt);;C++ Files (*.cpp *.h)"));
     saveFile(newFileName);
-    if(fileModel->insertRow(fileModel->rowCount()))
-            fileModel->setData(fileModel->index(fileModel->rowCount(), 0),
-                               newFileName);
+    if(fileModel->addFile(newFileName))
+        QCoreApplication::processEvents();
     working_file_name = newFileName;
 }
 

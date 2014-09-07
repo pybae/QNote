@@ -36,3 +36,10 @@ bool FileViewModel::setData(const QModelIndex &index, const QVariant &value, int
     }
     return false;
 }
+
+bool FileViewModel::addFile(const QVariant &value)
+{
+    file_list.append(value.toString());
+    FileViewModel::dataChanged(FileViewModel::index(file_list.size()-1), FileViewModel::index(file_list.size()));
+    return true;
+}
