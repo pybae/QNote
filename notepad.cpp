@@ -54,12 +54,16 @@ void Notepad::saveFile(QString fileName)
 // Called when the "New" option is triggered by C-n or menu
 void Notepad::on_actionNew_triggered()
 {
-    QString newFileName = QFileDialog::getSaveFileName(this, tr("New File"), working_dir.absolutePath(),
+    QString fileName = QFileDialog::getSaveFileName(this, tr("New File"), working_dir.absolutePath(),
             tr("Text Files (*.txt);;C++ Files (*.cpp *.h)"));
-    saveFile(newFileName);
-    if(fileModel->addFile(newFileName))
-        QCoreApplication::processEvents();
-    working_file_name = newFileName;
+    saveFile(fileName);
+
+    QFile file(fileName);
+    QFileInfo fileInfo(fileName);
+    QString localFileName(fileInfo.fileName());
+
+    fileModel->addFile(localFileName);
+    working_file_name = fileName;
 }
 
 // Called when the "Open" option is triggered by C-o or menu
