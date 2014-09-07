@@ -120,3 +120,21 @@ void Notepad::on_mainTextEdit_textChanged()
     // Save the current buffer
     // Notepad::on_actionSave_triggered();
 }
+
+void Notepad::on_actionAbout_triggered()
+{
+    QString abouttext = tr("<h1>Notetaking</h1>");
+
+    abouttext.append(tr("<p><b>Easy - Intuitive -Anywhere</b></p>"));
+    abouttext.append(tr("<p><a href=\"http://qt-project.org/\">QT: </a>"));
+    abouttext.append(tr("editor of Notetaking</p>"));
+    abouttext.append(tr("<p>Project page: <a href=\"https://github.com/pybae/notetaking\">source</a></p>"));
+    abouttext.append(tr("<p>Awesome Devs: <br/><br/> Paul Bae<br/>"));
+    abouttext.append(tr("Tianyu Cheng<br/>"));
+    abouttext.append(tr("Kim Yu Ng<br/>"));
+    abouttext.append(tr("Pikachu</p>"));
+    abouttext.append(tr("<p>This software is released under "
+                        "<a href=\"http://www.apache.org/licenses/LICENSE-2.0\"" \
+                        ">Apache License 2.0</a></p>"));
+    QMessageBox::about(this, tr("About us"), abouttext);
+}
