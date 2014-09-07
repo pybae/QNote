@@ -58,7 +58,6 @@ void Notepad::on_actionNew_triggered()
             tr("Text Files (*.txt);;C++ Files (*.cpp *.h)"));
     saveFile(fileName);
 
-    QFile file(fileName);
     QFileInfo fileInfo(fileName);
     QString localFileName(fileInfo.fileName());
 
