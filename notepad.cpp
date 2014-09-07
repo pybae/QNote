@@ -71,7 +71,7 @@ void Notepad::saveFile(QString fileName)
             return;
         } else {
             QTextStream stream(&file);
-            stream << ui->mainTextEdit->toPlainText() << "\n";
+            stream << ui->mainTextEdit->toPlainText();
             stream.flush();
             file.close();
         }
@@ -157,6 +157,7 @@ void Notepad::on_mainTextEdit_textChanged()
 
 void Notepad::on_listView_clicked(const QModelIndex &index)
 {
+    saveFile(working_file_name);
     QString fileName = working_dir.absoluteFilePath(fileModel->data(index).toString());
     if (!fileName.isEmpty()) {
         QFile file(fileName);
