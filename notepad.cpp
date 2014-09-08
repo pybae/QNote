@@ -66,7 +66,7 @@ void Notepad::saveFile(QString fileName)
     if (!fileName.isEmpty()) {
         QFile file(fileName);
         if (!file.open(QIODevice::WriteOnly)) {
-            // error message
+            QMessageBox::critical(this, tr("IO Error"), tr("Cannot save to file"));
             return;
         } else {
             QTextStream stream(&file);
@@ -76,7 +76,7 @@ void Notepad::saveFile(QString fileName)
         }
     }
     else {
-        printf("File does not exist\n");
+        qDebug("File does not exist");
     }
 }
 
@@ -98,7 +98,7 @@ void Notepad::on_actionNew_triggered()
 void Notepad::on_actionOpen_triggered()
 {
     QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"), working_dir.absolutePath(),
-            tr("All Files (*.*);;Text Files (*.txt);;RTF Files(*.rtf);;C++ Files (*.cpp *.h)"));
+            tr("All Files (*);;Text Files (*.txt);;RTF Files(*.rtf);;C++ Files (*.cpp *.h)"));
     if (!fileName.isEmpty()) {
         QFile file(fileName);
         working_file_name = file.fileName();
@@ -154,9 +154,10 @@ void Notepad::on_mainTextEdit_textChanged()
     // Notepad::on_actionSave_triggered();
 }
 
+// Called when the listView is clicked
 void Notepad::on_listView_clicked(const QModelIndex &index)
 {
-    saveFile(working_file_name);
+    saveFile(working_file_name); // save current buffer before switching
     QString fileName = working_dir.absoluteFilePath(fileModel->data(index).toString());
     if (!fileName.isEmpty()) {
         QFile file(fileName);
@@ -177,6 +178,7 @@ void Notepad::on_listView_clicked(const QModelIndex &index)
     }
 }
 
+// Called as a simple about section
 void Notepad::on_actionAbout_triggered()
 {
     QString abouttext = tr("<h1>Notetaking</h1>");
@@ -189,9 +191,9 @@ void Notepad::on_actionAbout_triggered()
     abouttext.append(tr("Tianyu Cheng<br/>"));
     abouttext.append(tr("Kim Yu Ng<br/>"));
     abouttext.append(tr("Pikachu</p>"));
-    abouttext.append(tr("<p>This software is released under "
-                        "<a href=\"http://www.apache.org/licenses/LICENSE-2.0\"" \
-                        ">Apache License 2.0</a></p>"));
+    abouttext.append(tr("<p>This software is released under the "
+                        "<a href=\"http://opensource.org/licenses/MIT\"" \
+                        ">MIT License</a></p>"));
     QMessageBox::about(this, tr("About us"), abouttext);
 }
 
