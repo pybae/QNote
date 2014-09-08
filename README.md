@@ -3,6 +3,10 @@ notetaking
 
 A note taking app for Linux based on Qt 5 and Qt Widgets
 
+Screenshots
+===========
+![alt_text](http://imgur.com/bkbQzXV "Alpha Version 0.0.1")
+
 Feature List TODO
 =================
 
