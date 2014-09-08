@@ -195,6 +195,7 @@ void Notepad::on_actionAbout_triggered()
     QMessageBox::about(this, tr("About us"), abouttext);
 }
 
+// renames the current file when enter is pressed in the title
 void Notepad::on_titleEdit_returnPressed()
 {
     if(!working_file_name.isEmpty()) {
@@ -202,17 +203,15 @@ void Notepad::on_titleEdit_returnPressed()
         QFile file(working_file_name);
         QFileInfo fileInfo(file);
         QString path = working_dir.absolutePath() + QDir::separator();
-        QString suffix = fileInfo.completeSuffix();
 
-        QFile newFile(path + ui->titleEdit->displayText());
+        QString newFileName = path + ui->titleEdit->displayText();
+        QFile newFile(newFileName);
         QFileInfo newFileInfo(newFile);
-        if (!newFileInfo.completeSuffix().isEmpty())
-            suffix = newFileInfo.completeSuffix();
 
-        working_file_name = path + newFileInfo.baseName() + "." + suffix;
-        file.rename(working_file_name);
+        file.rename(newFileName);
 
         QModelIndex index = fileModel->indexOf(fileInfo.fileName());
         fileModel->setData(index, newFileInfo.fileName(), Qt::EditRole);
+        working_file_name = newFileName;
     }
 }
