@@ -178,6 +178,7 @@ void Notepad::on_listView_clicked(const QModelIndex &index)
 
         QTextStream titleIn(&simpleFileName);
         ui->titleEdit->setText(titleIn.readAll());
+        updateDate();
     }
 }
 
