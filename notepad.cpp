@@ -22,6 +22,7 @@ Notepad::Notepad(QWidget *parent) :
     ui->listView->show();
 }
 
+// deconstructor
 Notepad::~Notepad()
 {
     delete ui;
@@ -62,8 +63,6 @@ void Notepad::readInDefaultDirectory()
 // A helper method to save a file, given a fileName in the current working directory
 void Notepad::saveFile(QString fileName)
 {
-    updateDate();
-
     if (!fileName.isEmpty()) {
         QFile file(fileName);
         if (!file.open(QIODevice::WriteOnly)) {
@@ -87,6 +86,7 @@ void Notepad::on_actionNew_triggered()
     QString fileName = QFileDialog::getSaveFileName(this, tr("New File"), working_dir.absolutePath(),
             tr("Text Files (*.txt);;C++ Files (*.cpp *.h)"));
     saveFile(fileName);
+    updateDate();
 
     QFileInfo fileInfo(fileName);
     QString localFileName(fileInfo.fileName());
@@ -118,6 +118,7 @@ void Notepad::on_actionOpen_triggered()
 void Notepad::on_actionSave_triggered()
 {
     saveFile(working_file_name);
+    updateDate();
 }
 
 // Called when the "Save As" option is triggered by C-S (Ctrl shift s) or menu
@@ -159,7 +160,7 @@ void Notepad::on_mainTextEdit_textChanged()
 void Notepad::on_listView_clicked(const QModelIndex &index)
 {
     if (!working_file_name.isEmpty())
-        saveFile(working_file_name); // save current buffer before switching
+        saveFile(working_file_name); // TODO should only save when changes have been made
     QString fileName = working_dir.absoluteFilePath(fileModel->data(index).toString());
     if (!fileName.isEmpty()) {
         QFile file(fileName);
@@ -228,8 +229,11 @@ void Notepad::on_titleEdit_returnPressed()
 }
 
 // Simple function to update the date
-void Notepad::updateDate() {
-    QDate date = QDate::currentDate();
-    ui->dateLabel->setText(date.toString("dddd, MMMM d, yyyy"));
+void Notepad::updateDate()
+{
+    QFile file(working_file_name);
+    QFileInfo fileInfo(file);
+    QDateTime dateTime = fileInfo.lastModified();
+    ui->dateLabel->setText(dateTime.toString("dddd, MMM d, h:mm A"));
     return;
 }
