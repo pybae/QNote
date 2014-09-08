@@ -157,7 +157,8 @@ void Notepad::on_mainTextEdit_textChanged()
 // Called when the listView is clicked
 void Notepad::on_listView_clicked(const QModelIndex &index)
 {
-    saveFile(working_file_name); // save current buffer before switching
+    if (!working_file_name.isEmpty())
+        saveFile(working_file_name); // save current buffer before switching
     QString fileName = working_dir.absoluteFilePath(fileModel->data(index).toString());
     if (!fileName.isEmpty()) {
         QFile file(fileName);
@@ -210,6 +211,11 @@ void Notepad::on_titleEdit_returnPressed()
         QFile newFile(newFileName);
         QFileInfo newFileInfo(newFile);
 
+        QModelIndex newIndex = fileModel->indexOf(newFileInfo.fileName());
+        if (newIndex.isValid()) { // new file name already exists
+            QMessageBox::critical(this, tr("Error"), tr("File already exists"));
+            return;
+        }
         file.rename(newFileName);
 
         QModelIndex index = fileModel->indexOf(fileInfo.fileName());
