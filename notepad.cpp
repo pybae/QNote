@@ -17,7 +17,6 @@ Notepad::Notepad(QWidget *parent) :
     readInDefaultDirectory();
     QStringList files = working_dir.entryList(QDir::AllEntries | QDir::NoDotAndDotDot);
     ui->setupUi(this);
-
     fileModel = new FileViewModel(files, 0);
     ui->listView->setModel(fileModel);
     ui->listView->show();
@@ -63,6 +62,8 @@ void Notepad::readInDefaultDirectory()
 // A helper method to save a file, given a fileName in the current working directory
 void Notepad::saveFile(QString fileName)
 {
+    updateDate();
+
     if (!fileName.isEmpty()) {
         QFile file(fileName);
         if (!file.open(QIODevice::WriteOnly)) {
@@ -221,10 +222,14 @@ void Notepad::on_titleEdit_returnPressed()
         QModelIndex index = fileModel->indexOf(fileInfo.fileName());
         fileModel->setData(index, newFileInfo.fileName(), Qt::EditRole);
         working_file_name = newFileName;
+
+        updateDate();
     }
 }
 
 // Simple function to update the date
 void Notepad::updateDate() {
+    QDate date = QDate::currentDate();
+    ui->dateLabel->setText(date.toString("dddd, MMMM d, yyyy"));
     return;
 }
