@@ -43,6 +43,8 @@ private slots:
     void on_actionAbout_triggered();
 
     void on_listView_clicked(const QModelIndex &index);
+
+    void on_titleEdit_returnPressed();
 };
 
 #endif // NOTEPAD_H

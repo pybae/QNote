@@ -190,3 +190,21 @@ void Notepad::on_actionAbout_triggered()
                         ">Apache License 2.0</a></p>"));
     QMessageBox::about(this, tr("About us"), abouttext);
 }
+
+void Notepad::on_titleEdit_returnPressed()
+{
+    if(!working_file_name.isEmpty()) {
+        // rename the file
+        QFile file(working_file_name);
+        QFileInfo fileInfo(file);
+        QString path = working_dir.absolutePath() + QDir::separator();
+        QString suffix = fileInfo.completeSuffix();
+
+        QFile newFile(path + ui->titleEdit->displayText());
+        QFileInfo newFileInfo(newFile);
+        if (!newFileInfo.completeSuffix().isEmpty())
+            suffix = newFileInfo.completeSuffix();
+
+        file.rename(path + newFileInfo.baseName() + "." + suffix);
+    }
+}

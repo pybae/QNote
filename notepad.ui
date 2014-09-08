@@ -82,7 +82,7 @@
        </spacer>
       </item>
       <item>
-       <layout class="QVBoxLayout" name="textRegion" stretch="0,1,0">
+       <layout class="QVBoxLayout" name="textRegion" stretch="0,0,0">
         <property name="spacing">
          <number>-1</number>
         </property>
@@ -115,6 +115,11 @@
         </item>
         <item>
          <widget class="QLabel" name="label">
+          <property name="font">
+           <font>
+            <family>Helvetica</family>
+           </font>
+          </property>
           <property name="text">
            <string>Sep 07, 2014</string>
           </property>

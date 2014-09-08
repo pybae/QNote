@@ -32,6 +32,7 @@ bool FileViewModel::setData(const QModelIndex &index, const QVariant &value, int
         return false;
     if (role == Qt::EditRole) {
         file_list.replace(index.row(), value.toString());
+        FileViewModel::dataChanged(index, index);
         return true;
     }
     return false;
@@ -42,4 +43,13 @@ bool FileViewModel::addFile(const QVariant &value)
     file_list.append(value.toString());
     FileViewModel::dataChanged(FileViewModel::index(file_list.size()-1), FileViewModel::index(file_list.size()));
     return true;
+}
+
+QModelIndex FileViewModel::indexOf(const QString fileName)
+{
+    if (!fileName.isEmpty()) {
+        int idx = file_list.indexOf(fileName);
+        return FileViewModel::index(idx);
+    }
+    return QModelIndex();
 }

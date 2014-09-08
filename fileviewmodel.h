@@ -15,6 +15,7 @@ public:
     bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole);
 
     bool addFile(const QVariant &value);
+    QModelIndex indexOf(const QString fileName);
 private:
     QStringList file_list;
 
