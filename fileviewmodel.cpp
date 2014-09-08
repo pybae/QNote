@@ -26,6 +26,8 @@ QVariant FileViewModel::data(const QModelIndex &index, int role) const
 
 bool FileViewModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
+    qDebug("inside of set data");
+    qDebug("index: %d\n", index.row());
     if (!index.isValid())
         return false;
     if (index.row() >= file_list.size())

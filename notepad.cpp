@@ -16,7 +16,6 @@ Notepad::Notepad(QWidget *parent) :
 {
     readInDefaultDirectory();
     QStringList files = working_dir.entryList(QDir::AllEntries | QDir::NoDotAndDotDot);
-
     ui->setupUi(this);
 
     fileModel = new FileViewModel(files, 0);
@@ -206,5 +205,8 @@ void Notepad::on_titleEdit_returnPressed()
             suffix = newFileInfo.completeSuffix();
 
         file.rename(path + newFileInfo.baseName() + "." + suffix);
+
+        QModelIndex index = fileModel->indexOf(fileInfo.fileName());
+        fileModel->setData(index, newFileInfo.fileName(), Qt::EditRole);
     }
 }
