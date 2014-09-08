@@ -160,6 +160,8 @@ void Notepad::on_listView_clicked(const QModelIndex &index)
     QString fileName = working_dir.absoluteFilePath(fileModel->data(index).toString());
     if (!fileName.isEmpty()) {
         QFile file(fileName);
+        QFileInfo fileInfo(file);
+        QString simpleFileName = fileInfo.fileName();
         working_file_name = file.fileName();
 
         if (!file.open(QIODevice::ReadOnly)) {
@@ -169,6 +171,9 @@ void Notepad::on_listView_clicked(const QModelIndex &index)
         QTextStream in(&file);
         ui->mainTextEdit->setText(in.readAll());
         file.close();
+
+        QTextStream titleIn(&simpleFileName);
+        ui->titleEdit->setText(titleIn.readAll());
     }
 }
 
@@ -204,7 +209,8 @@ void Notepad::on_titleEdit_returnPressed()
         if (!newFileInfo.completeSuffix().isEmpty())
             suffix = newFileInfo.completeSuffix();
 
-        file.rename(path + newFileInfo.baseName() + "." + suffix);
+        working_file_name = path + newFileInfo.baseName() + "." + suffix;
+        file.rename(working_file_name);
 
         QModelIndex index = fileModel->indexOf(fileInfo.fileName());
         fileModel->setData(index, newFileInfo.fileName(), Qt::EditRole);

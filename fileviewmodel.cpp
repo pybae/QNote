@@ -1,17 +1,20 @@
 #include "fileviewmodel.h"
 #include <QAbstractListModel>
 
+// simple constructor from a QStringList
 FileViewModel::FileViewModel(QStringList files, QObject *parent) :
     QAbstractListModel(parent)
 {
     file_list = files;
 }
 
+// inherting and adding the basic row count function
 int FileViewModel::rowCount(const QModelIndex &parent) const
 {
     return file_list.size();
 }
 
+// inheriting and adding the data function
 QVariant FileViewModel::data(const QModelIndex &index, int role) const
 {
     if (!index.isValid())
@@ -24,10 +27,9 @@ QVariant FileViewModel::data(const QModelIndex &index, int role) const
         return QVariant();
 }
 
+// inheriting and adding the set data function
 bool FileViewModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
-    qDebug("inside of set data");
-    qDebug("index: %d\n", index.row());
     if (!index.isValid())
         return false;
     if (index.row() >= file_list.size())
@@ -40,6 +42,7 @@ bool FileViewModel::setData(const QModelIndex &index, const QVariant &value, int
     return false;
 }
 
+// implements adding a file to the list
 bool FileViewModel::addFile(const QVariant &value)
 {
     file_list.append(value.toString());
@@ -47,6 +50,7 @@ bool FileViewModel::addFile(const QVariant &value)
     return true;
 }
 
+// implements getting the indexOf a file name in the list
 QModelIndex FileViewModel::indexOf(const QString fileName)
 {
     if (!fileName.isEmpty()) {
