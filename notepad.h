@@ -24,6 +24,7 @@ private:
     FileViewModel *fileModel;
     void saveFile(QString fileName);
     void readInDefaultDirectory();
+    void updateDate();
 
 private slots:
     void on_actionOpen_triggered();

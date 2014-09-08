@@ -223,3 +223,8 @@ void Notepad::on_titleEdit_returnPressed()
         working_file_name = newFileName;
     }
 }
+
+// Simple function to update the date
+void Notepad::updateDate() {
+    return;
+}
