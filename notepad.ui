@@ -77,10 +77,13 @@
        </spacer>
       </item>
       <item>
-       <layout class="QVBoxLayout" name="textRegion" stretch="1">
+       <layout class="QVBoxLayout" name="textRegion" stretch="0,1,0">
         <property name="spacing">
          <number>-1</number>
         </property>
+        <item>
+         <widget class="QLineEdit" name="lineEdit"/>
+        </item>
         <item>
          <widget class="QTextEdit" name="mainTextEdit">
           <property name="sizePolicy">
@@ -88,6 +91,13 @@
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label">
+          <property name="text">
+           <string>Sep 07, 2014</string>
           </property>
          </widget>
         </item>
