@@ -23,3 +23,7 @@ Proposed Features
 * Conversion from actual notes (using Camera and OpenCV), perhaps something like
   [this](http://detexify.kirelabs.org/classify.html) for latex
 
+Notes
+=====
+
+As always, this project will abide by our [coding guidelines](https://github.com/stddevs/guidelines)
