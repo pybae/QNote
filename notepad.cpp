@@ -168,6 +168,10 @@ void Notepad::on_listView_clicked(const QModelIndex &index)
     QString fileName = working_dir.absoluteFilePath(fileModel->data(index).toString());
     if (!fileName.isEmpty()) {
         QFile file(fileName);
+        if(fileName.contains(".o", Qt::CaseInsensitive)) {
+            QMessageBox::critical(this, tr("Error"), tr("Could not open this file format yet"));
+            return;
+        }
         QFileInfo fileInfo(file);
         QString simpleFileName = fileInfo.fileName();
         working_file_name = file.fileName();
