@@ -1,7 +1,8 @@
-notetaking
-==========
+QNote
+=====
 
-A note taking app for Linux based on Qt 5 and Qt Widgets
+A modern, fully-featured note taking app for Linux </br>
+Built with [Qt 5](http://qt-project.org/) and [Qt Dropbox](http://lycis.github.io/QtDropbox/)
 
 Screenshots
 ===========
