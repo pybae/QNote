@@ -101,6 +101,10 @@ void Notepad::on_actionOpen_triggered()
     QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"), working_dir.absolutePath(),
             tr("All Files (*);;Text Files (*.txt);;RTF Files(*.rtf);;C++ Files (*.cpp *.h)"));
     if (!fileName.isEmpty()) {
+        if(fileName.contains(".o", Qt::CaseInsensitive)) {
+            QMessageBox::critical(this, tr("Error"), tr("Could not open this file format yet"));
+            return;
+        }
         QFile file(fileName);
         working_file_name = file.fileName();
 
@@ -164,6 +168,10 @@ void Notepad::on_listView_clicked(const QModelIndex &index)
     QString fileName = working_dir.absoluteFilePath(fileModel->data(index).toString());
     if (!fileName.isEmpty()) {
         QFile file(fileName);
+        if(fileName.contains(".o", Qt::CaseInsensitive)) {
+            QMessageBox::critical(this, tr("Error"), tr("Could not open this file format yet"));
+            return;
+        }
         QFileInfo fileInfo(file);
         QString simpleFileName = fileInfo.fileName();
         working_file_name = file.fileName();
