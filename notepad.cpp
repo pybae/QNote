@@ -128,7 +128,7 @@ void Notepad::on_actionSave_triggered()
 // Called when the "Save As" option is triggered by C-S (Ctrl shift s) or menu
 void Notepad::on_actionSaveAs_triggered()
 {
-    QString fileName = QFileDialog::getSaveFileName(this, tr("Save File"), QString(),
+    QString fileName = QFileDialog::getSaveFileName(this, tr("Save File"),  working_dir.absolutePath(),
             tr("Text Files (*.txt);;C++ Files (*.cpp *.h)"));
     saveFile(fileName);
 }
