@@ -8,6 +8,7 @@
 #include <QtPrintSupport>
 #include <QListView>
 #include <fileviewmodel.h>
+#include <cassert>
 #include <QLabel>
 
 Notepad::Notepad(QWidget *parent) :
@@ -99,6 +100,7 @@ void Notepad::on_actionNew_triggered()
 // Called when the "Open" option is triggered by C-o or menu
 void Notepad::on_actionOpen_triggered()
 {
+    saveFile(working_file_name);
     QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"), working_dir.absolutePath(),
             tr("All Files (*);;Text Files (*.txt);;RTF Files(*.rtf);;C++ Files (*.cpp *.h)"));
     if (!fileName.isEmpty()) {
@@ -106,8 +108,11 @@ void Notepad::on_actionOpen_triggered()
             QMessageBox::critical(this, tr("Error"), tr("Could not open this file format yet"));
             return;
         }
+        updateListViewSelection(fileName);
         QFile file(fileName);
+        QFileInfo fileInfo(file);
         working_file_name = file.fileName();
+        QString simpleFileName = fileInfo.fileName();
 
         if (!file.open(QIODevice::ReadOnly)) {
             QMessageBox::critical(this, tr("Error"), tr("Could not open file"));
@@ -116,6 +121,9 @@ void Notepad::on_actionOpen_triggered()
         QTextStream in(&file);
         ui->mainTextEdit->setText(in.readAll());
         file.close();
+
+        QTextStream titleIn(&simpleFileName);
+        ui->titleEdit->setText(titleIn.readAll());
     }
 }
 
@@ -246,4 +254,19 @@ void Notepad::updateDate()
     QDateTime dateTime = fileInfo.lastModified();
     ui->dateLabel->setText(dateTime.toString("dddd, MMM d, h:mm A"));
     return;
+}
+
+// Function to update the listView selection
+void Notepad::updateListViewSelection(QString fileName)
+{
+    QFile file(fileName);
+    QFileInfo fileInfo(file);
+    QDir fileDir = fileInfo.absoluteDir();
+    if (working_dir == fileDir) {
+        QModelIndex index = fileModel->indexOf(fileInfo.fileName());
+        assert (index.isValid());
+        ui->listView->setCurrentIndex(index);
+    }
+    else
+        qDebug("Not in working directory, can't show in list view yet (not implemented)!");
 }

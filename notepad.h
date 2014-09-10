@@ -25,6 +25,7 @@ private:
     void saveFile(QString fileName);
     void readInDefaultDirectory();
     void updateDate();
+    void updateListViewSelection(QString fileName);
 
 private slots:
     void on_actionOpen_triggered();
