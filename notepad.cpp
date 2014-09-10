@@ -85,9 +85,10 @@ void Notepad::on_actionNew_triggered()
 {
     QString fileName = QFileDialog::getSaveFileName(this, tr("New File"), working_dir.absolutePath(),
             tr("Text Files (*.txt);;C++ Files (*.cpp *.h)"));
+    ui->mainTextEdit->clear();
     saveFile(fileName);
     updateDate();
-
+    // Clear the buffer
     QFileInfo fileInfo(fileName);
     QString localFileName(fileInfo.fileName());
 
