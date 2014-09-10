@@ -1,5 +1,6 @@
-#include "notepad.h"
+#include "QNote.h"
 #include "ui_notepad.h"
+#include "qnotelib.h"
 #include <QFileDialog>
 #include <QFile>
 #include <QMessageBox>
@@ -11,58 +12,30 @@
 #include <cassert>
 #include <QLabel>
 
-Notepad::Notepad(QWidget *parent) :
+QNote::QNote(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::Notepad)
+    ui(new Ui::QNote)
 {
-    readInDefaultDirectory();
-    QStringList files = working_dir.entryList(QDir::AllEntries | QDir::NoDotAndDotDot);
+    parent_dir = QNoteLib::readInDefaultDirectory(this);
+    QStringList files = parent_dir.entryList(QDir::AllEntries | QDir::NoDotAndDotDot);
     ui->setupUi(this);
     fileModel = new FileViewModel(files, 0);
     ui->listView->setModel(fileModel);
-    ui->listView->show();
 }
 
-// deconstructor
-Notepad::~Notepad()
+QNote::~QNote()
 {
     delete ui;
 }
 
 // A helper method to read in the default directory
-void Notepad::readInDefaultDirectory()
+void QNote::readInDefaultDirectory()
 {
-    QFile metadata(QDir::homePath() + "/.notetakinginfo");
 
-    if (!metadata.exists()) {
-        QMessageBox::warning(this, tr("No default directory found"), tr("Please choose a default directory"));
-        working_dir = QDir(QFileDialog::getExistingDirectory(this, tr("Default Directory"),
-                                                        QDir::homePath(),
-                                                        QFileDialog::ShowDirsOnly
-                                                        | QFileDialog::DontResolveSymlinks));
-        if (!metadata.open(QIODevice::WriteOnly)) {
-            QMessageBox::critical(this, tr("Error"), tr("Could not write to file"));
-            return;
-        } else {
-            QTextStream stream(&metadata);
-            stream << working_dir.absolutePath() << "\n";
-            stream.flush();
-            metadata.close();
-        }
-    }
-    else {
-        if (!metadata.open(QIODevice::ReadOnly)) {
-            QMessageBox::critical(this, tr("Error"), tr("Could not read file"));
-            return;
-        }
-        QTextStream in(&metadata);
-        working_dir = QDir(in.readLine());
-        metadata.close();
-    }
 }
 
 // A helper method to save a file, given a fileName in the current working directory
-void Notepad::saveFile(QString fileName)
+void QNote::saveFile(QString fileName)
 {
     if (!fileName.isEmpty()) {
         QFile file(fileName);
@@ -82,9 +55,9 @@ void Notepad::saveFile(QString fileName)
 }
 
 // Called when the "New" option is triggered by C-n or menu
-void Notepad::on_actionNew_triggered()
+void QNote::on_actionNew_triggered()
 {
-    QString fileName = QFileDialog::getSaveFileName(this, tr("New File"), working_dir.absolutePath(),
+    QString fileName = QFileDialog::getSaveFileName(this, tr("New File"), parent_dir.absolutePath(),
             tr("Text Files (*.txt);;C++ Files (*.cpp *.h)"));
     ui->mainTextEdit->clear();
     saveFile(fileName);
@@ -98,10 +71,10 @@ void Notepad::on_actionNew_triggered()
 }
 
 // Called when the "Open" option is triggered by C-o or menu
-void Notepad::on_actionOpen_triggered()
+void QNote::on_actionOpen_triggered()
 {
     saveFile(working_file_name);
-    QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"), working_dir.absolutePath(),
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"), parent_dir.absolutePath(),
             tr("All Files (*);;Text Files (*.txt);;RTF Files(*.rtf);;C++ Files (*.cpp *.h)"));
     if (!fileName.isEmpty()) {
         if(fileName.contains(".o", Qt::CaseInsensitive)) {
@@ -128,22 +101,22 @@ void Notepad::on_actionOpen_triggered()
 }
 
 // Called when the "Save" option is triggered by C-s or menu
-void Notepad::on_actionSave_triggered()
+void QNote::on_actionSave_triggered()
 {
     saveFile(working_file_name);
     updateDate();
 }
 
 // Called when the "Save As" option is triggered by C-S (Ctrl shift s) or menu
-void Notepad::on_actionSaveAs_triggered()
+void QNote::on_actionSaveAs_triggered()
 {
-    QString fileName = QFileDialog::getSaveFileName(this, tr("Save File"),  working_dir.absolutePath(),
+    QString fileName = QFileDialog::getSaveFileName(this, tr("Save File"),  parent_dir.absolutePath(),
             tr("Text Files (*.txt);;C++ Files (*.cpp *.h)"));
     saveFile(fileName);
 }
 
 // Called when the "Print" option is triggered by C-p or menu
-void Notepad::on_actionPrint_triggered()
+void QNote::on_actionPrint_triggered()
 {
 //     QPrinter printer;
 
@@ -155,7 +128,7 @@ void Notepad::on_actionPrint_triggered()
 }
 
 // Called when the "Exit" option is triggered by C-q or menu
-void Notepad::on_actionExit_triggered()
+void QNote::on_actionExit_triggered()
 {
     // TODO need to check if there are any unsaved buffers
     qApp->quit();
@@ -163,18 +136,18 @@ void Notepad::on_actionExit_triggered()
 
 // Triggered when the mainTextEdit region has its text changed
 // TODO figure out how frequently this method is called
-void Notepad::on_mainTextEdit_textChanged()
+void QNote::on_mainTextEdit_textChanged()
 {
     // Save the current buffer
     // Notepad::on_actionSave_triggered();
 }
 
 // Called when the listView is clicked
-void Notepad::on_listView_clicked(const QModelIndex &index)
+void QNote::on_listView_clicked(const QModelIndex &index)
 {
     if (!working_file_name.isEmpty())
         saveFile(working_file_name); // TODO should only save when changes have been made
-    QString fileName = working_dir.absoluteFilePath(fileModel->data(index).toString());
+    QString fileName = parent_dir.absoluteFilePath(fileModel->data(index).toString());
     if (!fileName.isEmpty()) {
         QFile file(fileName);
         if(fileName.contains(".o", Qt::CaseInsensitive)) {
@@ -200,7 +173,7 @@ void Notepad::on_listView_clicked(const QModelIndex &index)
 }
 
 // Called as a simple about section
-void Notepad::on_actionAbout_triggered()
+void QNote::on_actionAbout_triggered()
 {
     QString abouttext = tr("<h1>Notetaking</h1>");
 
@@ -219,13 +192,13 @@ void Notepad::on_actionAbout_triggered()
 }
 
 // renames the current file when enter is pressed in the title
-void Notepad::on_titleEdit_returnPressed()
+void QNote::on_titleEdit_returnPressed()
 {
     if(!working_file_name.isEmpty()) {
         // rename the file
         QFile file(working_file_name);
         QFileInfo fileInfo(file);
-        QString path = working_dir.absolutePath() + QDir::separator();
+        QString path = parent_dir.absolutePath() + QDir::separator();
 
         QString newFileName = path + ui->titleEdit->displayText();
         QFile newFile(newFileName);
@@ -247,7 +220,7 @@ void Notepad::on_titleEdit_returnPressed()
 }
 
 // Simple function to update the date
-void Notepad::updateDate()
+void QNote::updateDate()
 {
     QFile file(working_file_name);
     QFileInfo fileInfo(file);
@@ -257,12 +230,12 @@ void Notepad::updateDate()
 }
 
 // Function to update the listView selection
-void Notepad::updateListViewSelection(QString fileName)
+void QNote::updateListViewSelection(QString fileName)
 {
     QFile file(fileName);
     QFileInfo fileInfo(file);
     QDir fileDir = fileInfo.absoluteDir();
-    if (working_dir == fileDir) {
+    if (parent_dir == fileDir) {
         QModelIndex index = fileModel->indexOf(fileInfo.fileName());
         assert (index.isValid());
         ui->listView->setCurrentIndex(index);

@@ -6,21 +6,21 @@
 #include "fileviewmodel.h"
 
 namespace Ui {
-class Notepad;
+class QNote;
 }
 
-class Notepad : public QMainWindow
+class QNote : public QMainWindow
 {
     Q_OBJECT
 
 public:
-    explicit Notepad(QWidget *parent = 0);
-    ~Notepad();
+    explicit QNote(QWidget *parent = 0);
+    ~QNote();
 
 private:
-    Ui::Notepad *ui;
-    QString working_file_name;
-    QDir working_dir;
+    Ui::QNote *ui;
+    QString working_file_name; // absolute file name
+    QDir parent_dir;
     FileViewModel *fileModel;
     void saveFile(QString fileName);
     void readInDefaultDirectory();
@@ -29,23 +29,14 @@ private:
 
 private slots:
     void on_actionOpen_triggered();
-
     void on_actionSaveAs_triggered();
-
     void on_mainTextEdit_textChanged();
-
     void on_actionNew_triggered();
-
     void on_actionSave_triggered();
-
     void on_actionPrint_triggered();
-
     void on_actionExit_triggered();
-
     void on_actionAbout_triggered();
-
     void on_listView_clicked(const QModelIndex &index);
-
     void on_titleEdit_returnPressed();
 };
 

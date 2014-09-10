@@ -13,10 +13,14 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        notepad.cpp \
-    fileviewmodel.cpp
+    fileviewmodel.cpp \
+    QNote.cpp \
+    qnotelib.cpp
 
-HEADERS  += notepad.h \
-    fileviewmodel.h
+HEADERS  += \
+    fileviewmodel.h \
+    QNote.h \
+    qnotelib.h
 
-FORMS    += notepad.ui
+FORMS    += \
+    QNote.ui

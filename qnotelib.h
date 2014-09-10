@@ -1,10 +1,15 @@
 #ifndef QNOTELIB_H
 #define QNOTELIB_H
 
-class QNoteLib
+#include <QDir>
+
+class QNoteLib : QObject
 {
+private:
+    QNoteLib(){};
 public:
-    QNoteLib();
+    static QDir readInDefaultDirectory(QWidget *parent);
+
 };
 
 #endif // QNOTELIB_H
