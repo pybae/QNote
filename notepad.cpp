@@ -35,7 +35,7 @@ void Notepad::readInDefaultDirectory()
     QFile metadata(QDir::homePath() + "/.notetakinginfo");
 
     if (!metadata.exists()) {
-        // TODO send a message box
+        QMessageBox::warning(this, tr("No default directory found"), tr("Please choose a default directory"));
         working_dir = QDir(QFileDialog::getExistingDirectory(this, tr("Default Directory"),
                                                         QDir::homePath(),
                                                         QFileDialog::ShowDirsOnly
