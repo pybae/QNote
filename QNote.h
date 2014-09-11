@@ -30,16 +30,17 @@ public:
 
 private:
     Ui::QNote *ui;                    // The main Ui of the class
-    QString working_file_name;        // the current file displayed (absolute path)
-    QDir parent_dir;                  // the main parent directory of all the files
+    QString currentFileName;          // the current file displayed (absolute path)
+    QDir parentDir;                   // the main parent directory of all the files
     FileViewModel *fileModel;         // the fileModel for the listView
-
-    // saves the file given to it and updates all appropriate variables
-    void saveFile(QString fileName);
 
     // reads in the user's configuration files at startup
     // this function is called in setup
     void readConfig();
+
+    // saves the file given to it and updates all appropriate variables
+    // returns true if saving succeeds
+    bool saveFile(QFile& file);
 
     // updates the date of the modified file
     void updateDate();

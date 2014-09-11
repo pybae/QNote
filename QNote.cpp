@@ -30,7 +30,7 @@ QNote::~QNote()
 void QNote::setup()
 {
     readConfig();
-    QStringList files = parent_dir.entryList(QDir::AllEntries | QDir::NoDotAndDotDot);
+    QStringList files = parentDir.entryList(QDir::AllEntries | QDir::NoDotAndDotDot);
     fileModel = new FileViewModel(files, 0);
     ui->listView->setModel(fileModel);
 }
@@ -46,7 +46,7 @@ void QNote::readConfig()
                                                             QFileDialog::ShowDirsOnly
                                                             | QFileDialog::DontResolveSymlinks);
         if (!working_dir_name.isEmpty())
-            parent_dir = QDir(working_dir_name);
+            parentDir = QDir(working_dir_name);
         else
             readConfig();
 
@@ -55,62 +55,50 @@ void QNote::readConfig()
     else {
         checkedOpenFile(configFile, QIODevice::ReadOnly);
         QTextStream in(&configFile);
-        parent_dir = QDir(in.readLine());
+        parentDir = QDir(in.readLine());
         configFile.close();
     }
 }
 
-// A helper method to save a file, given a fileName in the current working directory
-void QNote::saveFile(QString fileName)
+bool QNote::saveFile(QFile& file)
 {
-    if (!fileName.isEmpty()) {
-        QFile file(fileName);
-        if (!file.open(QIODevice::WriteOnly)) {
-            QMessageBox::critical(this, tr("IO Error"), tr("Cannot save to file"));
-            return;
-        } else {
-            QTextStream stream(&file);
-            stream << ui->mainTextEdit->toPlainText();
-            stream.flush();
-            file.close();
-        }
-    }
-    else {
-        qDebug("File does not exist");
-    }
+    return writeToFile(file, ui->mainTextEdit->toPlainText());
 }
 
-// Called when the "New" option is triggered by C-n or menu
 void QNote::on_actionNew_triggered()
 {
-    QString fileName = QFileDialog::getSaveFileName(this, tr("New File"), parent_dir.absolutePath(),
-            tr("Text Files (*.txt);;C++ Files (*.cpp *.h)"));
+    QString fileName = QFileDialog::getSaveFileName(this, tr("New File"), parentDir.absolutePath(),
+            tr("All Files (*);;Text Files (*.txt);;RTF Files(*.rtf);;C++ Files (*.cpp *.h)"));
+    currentFileName = fileName;
     ui->mainTextEdit->clear();
-    saveFile(fileName);
-    updateDate();
-    // Clear the buffer
-    QFileInfo fileInfo(fileName);
+
+    QFile file(currentFileName);
+    saveFile(file);
+
+    QFileInfo fileInfo(file);
     QString localFileName(fileInfo.fileName());
 
     fileModel->addFile(localFileName);
-    working_file_name = fileName;
 }
 
-// Called when the "Open" option is triggered by C-o or menu
 void QNote::on_actionOpen_triggered()
 {
-    saveFile(working_file_name);
-    QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"), parent_dir.absolutePath(),
+    // TODO: As soon as we implement a file sys watcher, look for unsaved changes,
+    // and prompt the user here instead of saving all the time
+    // saveFile(currentFileName);
+
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"), parentDir.absolutePath(),
             tr("All Files (*);;Text Files (*.txt);;RTF Files(*.rtf);;C++ Files (*.cpp *.h)"));
     if (!fileName.isEmpty()) {
         if(fileName.contains(".o", Qt::CaseInsensitive)) {
-            QMessageBox::critical(this, tr("Error"), tr("Could not open this file format yet"));
+            QMessageBox::critical(this, tr("Error"), tr("Can not open this file format yet"));
             return;
         }
+
         updateListViewSelection(fileName);
         QFile file(fileName);
         QFileInfo fileInfo(file);
-        working_file_name = file.fileName();
+        currentFileName = file.fileName();
         QString simpleFileName = fileInfo.fileName();
 
         if (!file.open(QIODevice::ReadOnly)) {
@@ -126,19 +114,19 @@ void QNote::on_actionOpen_triggered()
     }
 }
 
-// Called when the "Save" option is triggered by C-s or menu
 void QNote::on_actionSave_triggered()
 {
-    saveFile(working_file_name);
+    QFile file(currentFileName);
+    saveFile(file);
     updateDate();
 }
 
-// Called when the "Save As" option is triggered by C-S (Ctrl shift s) or menu
 void QNote::on_actionSaveAs_triggered()
 {
-    QString fileName = QFileDialog::getSaveFileName(this, tr("Save File"),  parent_dir.absolutePath(),
+    QString fileName = QFileDialog::getSaveFileName(this, tr("Save File"),  parentDir.absolutePath(),
             tr("Text Files (*.txt);;C++ Files (*.cpp *.h)"));
-    saveFile(fileName);
+    QFile file(fileName);
+    saveFile(file);
 }
 
 // Called when the "Print" option is triggered by C-p or menu
@@ -165,15 +153,16 @@ void QNote::on_actionExit_triggered()
 void QNote::on_mainTextEdit_textChanged()
 {
     // Save the current buffer
-    // Notepad::on_actionSave_triggered();
+    QFile file(currentFileName);
+    saveFile(file);
 }
 
-// Called when the listView is clicked
 void QNote::on_listView_clicked(const QModelIndex &index)
 {
-    if (!working_file_name.isEmpty())
-        saveFile(working_file_name); // TODO should only save when changes have been made
-    QString fileName = parent_dir.absoluteFilePath(fileModel->data(index).toString());
+    // Same as the comment in the New-slot, should only save when changes have been made
+    //    saveFile(currentFileName);
+
+    QString fileName = parentDir.absoluteFilePath(fileModel->data(index).toString());
     if (!fileName.isEmpty()) {
         QFile file(fileName);
         if(fileName.contains(".o", Qt::CaseInsensitive)) {
@@ -182,7 +171,7 @@ void QNote::on_listView_clicked(const QModelIndex &index)
         }
         QFileInfo fileInfo(file);
         QString simpleFileName = fileInfo.fileName();
-        working_file_name = file.fileName();
+        currentFileName = file.fileName();
 
         if (!file.open(QIODevice::ReadOnly)) {
             QMessageBox::critical(this, tr("Error"), tr("Could not open file"));
@@ -220,11 +209,11 @@ void QNote::on_actionAbout_triggered()
 // renames the current file when enter is pressed in the title
 void QNote::on_titleEdit_returnPressed()
 {
-    if(!working_file_name.isEmpty()) {
+    if(!currentFileName.isEmpty()) {
         // rename the file
-        QFile file(working_file_name);
+        QFile file(currentFileName);
         QFileInfo fileInfo(file);
-        QString path = parent_dir.absolutePath() + QDir::separator();
+        QString path = parentDir.absolutePath() + QDir::separator();
 
         QString newFileName = path + ui->titleEdit->displayText();
         QFile newFile(newFileName);
@@ -239,7 +228,7 @@ void QNote::on_titleEdit_returnPressed()
 
         QModelIndex index = fileModel->indexOf(fileInfo.fileName());
         fileModel->setData(index, newFileInfo.fileName(), Qt::EditRole);
-        working_file_name = newFileName;
+        currentFileName = newFileName;
 
         updateDate();
     }
@@ -248,7 +237,7 @@ void QNote::on_titleEdit_returnPressed()
 // Simple function to update the date
 void QNote::updateDate()
 {
-    QFile file(working_file_name);
+    QFile file(currentFileName);
     QFileInfo fileInfo(file);
     QDateTime dateTime = fileInfo.lastModified();
     ui->dateLabel->setText(dateTime.toString("dddd, MMM d, h:mm A"));
@@ -261,7 +250,8 @@ void QNote::updateListViewSelection(QString fileName)
     QFile file(fileName);
     QFileInfo fileInfo(file);
     QDir fileDir = fileInfo.absoluteDir();
-    if (parent_dir == fileDir) {
+
+    if (parentDir == fileDir) {
         QModelIndex index = fileModel->indexOf(fileInfo.fileName());
 
         if (index.isValid())
