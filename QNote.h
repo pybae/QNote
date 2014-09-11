@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QDir>
+#include <QBuffer>
 #include "fileviewmodel.h"
 
 namespace Ui {
@@ -28,6 +29,9 @@ private:
     void readConfig();
     void updateDate();
     void updateListViewSelection(QString fileName);
+
+    bool writeToFile(QFile& file, QString data);
+    bool checkedOpenFile(QFile& file, QIODevice::OpenMode mode);
 
 private slots:
     void on_actionOpen_triggered();

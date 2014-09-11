@@ -12,6 +12,7 @@
 #include <QtPrintSupport>
 #include <QListView>
 #include <QLabel>
+#include <QBuffer>
 
 QNote::QNote(QWidget *parent) :
     QMainWindow(parent),
@@ -45,23 +46,12 @@ void QNote::readConfig()
                                                             QDir::homePath(),
                                                             QFileDialog::ShowDirsOnly
                                                             | QFileDialog::DontResolveSymlinks);
-        if (!working_dir_name.isEmpty()) {
+        if (!working_dir_name.isEmpty())
             parent_dir = QDir(working_dir_name);
-        }
-        else {
+        else
             readConfig();
-        }
 
-        // Save the metadata file
-        if (!configFile.open(QIODevice::WriteOnly)) {
-            QMessageBox::critical(this, tr("Error"), tr("Could not write to file"));
-            exit(0);
-        } else {
-            QTextStream stream(&configFile);
-            stream << parent_dir.absolutePath() << "\n";
-            stream.flush();
-            configFile.close();
-        }
+        writeToFile(configFile, working_dir_name + "\n");
     }
     else {
         if (!configFile.open(QIODevice::ReadOnly)) {
@@ -277,9 +267,33 @@ void QNote::updateListViewSelection(QString fileName)
     QDir fileDir = fileInfo.absoluteDir();
     if (parent_dir == fileDir) {
         QModelIndex index = fileModel->indexOf(fileInfo.fileName());
-        assert (index.isValid());
-        ui->listView->setCurrentIndex(index);
+
+        if (index.isValid())
+            ui->listView->setCurrentIndex(index);
     }
     else
         qDebug("Not in working directory, can't show in list view yet (not implemented)!");
+}
+
+// Function to write the provided data to the file
+bool QNote::writeToFile(QFile& file, QString data)
+{
+    if (!checkedOpenFile(file, QIODevice::WriteOnly)) return false;
+
+    QTextStream stream(&file);
+    stream << data;
+    stream.flush();
+    file.close();
+
+    return true;
+}
+
+// Opens and returns whether the operation was successful
+bool QNote::checkedOpenFile(QFile& file, QIODevice::OpenMode mode)
+{
+    if (!file.open(mode)) {
+        QMessageBox::critical(this, tr("Error"), tr("Could not open file"));
+        return false;
+    }
+    return true;
 }
