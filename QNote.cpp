@@ -41,8 +41,7 @@ void QNote::readConfig()
     if (!configFile.exists()) {
         QMessageBox::warning(this, tr("No default directory found"), tr("Please choose a default directory"));
 
-        QFileDialog dlg(this, tr("Default directory"));
-        QString working_dir_name = dlg.getExistingDirectory(this, tr("Default directory"),
+        QString working_dir_name = QFileDialog::getExistingDirectory(this, tr("Default directory"),
                                                             QDir::homePath(),
                                                             QFileDialog::ShowDirsOnly
                                                             | QFileDialog::DontResolveSymlinks);
