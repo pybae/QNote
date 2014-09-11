@@ -11,6 +11,7 @@
 #include <QListWidget>
 #include <QtPrintSupport>
 #include <QListView>
+#include <QDebug>
 #include <QLabel>
 #include <QBuffer>
 
@@ -156,7 +157,8 @@ void QNote::on_mainTextEdit_textChanged()
 {
     // Save the current buffer
     QFile file(currentFileName);
-    saveFile(file);
+    qDebug() << ui->mainTextEdit->toPlainText();
+    //saveFile(file);
 }
 
 void QNote::on_listView_clicked(const QModelIndex &index)
