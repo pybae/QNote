@@ -1,4 +1,4 @@
-#include "QNote.h"
+#include "qnote.h"
 #include <QApplication>
 
 int main(int argc, char *argv[])
