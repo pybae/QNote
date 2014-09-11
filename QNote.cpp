@@ -1,5 +1,5 @@
 #include <QNote.h>
-#include <ui_notepad.h>
+#include <ui_QNote.h>
 
 #include <fileviewmodel.h>
 #include <cassert>
