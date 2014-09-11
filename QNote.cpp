@@ -14,6 +14,7 @@
 #include <QLabel>
 #include <QBuffer>
 
+
 QNote::QNote(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::QNote)
@@ -34,11 +35,10 @@ void QNote::setup()
     ui->listView->setModel(fileModel);
 }
 
-// A helper method to read in the default directory
 void QNote::readConfig()
 {
     QFile configFile(QDir::homePath() + QDir::separator() + ".notetakinginfo");
-    if (!configFile.exists()) { // notetakinginfo file doesn't exist
+    if (!configFile.exists()) {
         QMessageBox::warning(this, tr("No default directory found"), tr("Please choose a default directory"));
 
         QFileDialog dlg(this, tr("Default directory"));
@@ -54,10 +54,7 @@ void QNote::readConfig()
         writeToFile(configFile, working_dir_name + "\n");
     }
     else {
-        if (!configFile.open(QIODevice::ReadOnly)) {
-            QMessageBox::critical(this, tr("Error"), tr("Could not read file"));
-            exit(0);
-        }
+        checkedOpenFile(configFile, QIODevice::ReadOnly);
         QTextStream in(&configFile);
         parent_dir = QDir(in.readLine());
         configFile.close();
