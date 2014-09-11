@@ -1,6 +1,9 @@
-#include "QNote.h"
-#include "ui_notepad.h"
-#include "qnotelib.h"
+#include <QNote.h>
+#include <ui_notepad.h>
+
+#include <fileviewmodel.h>
+#include <cassert>
+
 #include <QFileDialog>
 #include <QFile>
 #include <QMessageBox>
@@ -8,19 +11,13 @@
 #include <QListWidget>
 #include <QtPrintSupport>
 #include <QListView>
-#include <fileviewmodel.h>
-#include <cassert>
 #include <QLabel>
 
 QNote::QNote(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::QNote)
 {
-    parent_dir = readInDefaultDirectory();
-    QStringList files = parent_dir.entryList(QDir::AllEntries | QDir::NoDotAndDotDot);
     ui->setupUi(this);
-    fileModel = new FileViewModel(files, 0);
-    ui->listView->setModel(fileModel);
 }
 
 QNote::~QNote()
@@ -28,12 +25,19 @@ QNote::~QNote()
     delete ui;
 }
 
-// A helper method to read in the default directory
-QDir QNote::readInDefaultDirectory()
+void QNote::setup()
 {
-    QFile metadata(QDir::homePath() + QDir::separator() + ".notetakinginfo");
-    QDir parent_dir;
-    if (!metadata.exists()) {
+    readConfig();
+    QStringList files = parent_dir.entryList(QDir::AllEntries | QDir::NoDotAndDotDot);
+    fileModel = new FileViewModel(files, 0);
+    ui->listView->setModel(fileModel);
+}
+
+// A helper method to read in the default directory
+void QNote::readConfig()
+{
+    QFile configFile(QDir::homePath() + QDir::separator() + ".notetakinginfo");
+    if (!configFile.exists()) { // notetakinginfo file doesn't exist
         QMessageBox::warning(this, tr("No default directory found"), tr("Please choose a default directory"));
 
         QFileDialog dlg(this, tr("Default directory"));
@@ -41,32 +45,33 @@ QDir QNote::readInDefaultDirectory()
                                                             QDir::homePath(),
                                                             QFileDialog::ShowDirsOnly
                                                             | QFileDialog::DontResolveSymlinks);
-        if (!working_dir_name.isEmpty())
+        if (!working_dir_name.isEmpty()) {
             parent_dir = QDir(working_dir_name);
-        else {
-            QMessageBox::critical(this, tr("No default directory"), tr(""));
-            exit(0);
         }
-        if (!metadata.open(QIODevice::WriteOnly)) {
+        else {
+            readConfig();
+        }
+
+        // Save the metadata file
+        if (!configFile.open(QIODevice::WriteOnly)) {
             QMessageBox::critical(this, tr("Error"), tr("Could not write to file"));
             exit(0);
         } else {
-            QTextStream stream(&metadata);
+            QTextStream stream(&configFile);
             stream << parent_dir.absolutePath() << "\n";
             stream.flush();
-            metadata.close();
+            configFile.close();
         }
     }
     else {
-        if (!metadata.open(QIODevice::ReadOnly)) {
+        if (!configFile.open(QIODevice::ReadOnly)) {
             QMessageBox::critical(this, tr("Error"), tr("Could not read file"));
             exit(0);
         }
-        QTextStream in(&metadata);
+        QTextStream in(&configFile);
         parent_dir = QDir(in.readLine());
-        metadata.close();
+        configFile.close();
     }
-    return parent_dir;
 }
 
 // A helper method to save a file, given a fileName in the current working directory

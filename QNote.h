@@ -16,14 +16,16 @@ class QNote : public QMainWindow
 public:
     explicit QNote(QWidget *parent = 0);
     ~QNote();
+    void setup();
 
 private:
     Ui::QNote *ui;
     QString working_file_name; // absolute file name
     QDir parent_dir;
     FileViewModel *fileModel;
+
     void saveFile(QString fileName);
-    QDir readInDefaultDirectory();
+    void readConfig();
     void updateDate();
     void updateListViewSelection(QString fileName);
 
