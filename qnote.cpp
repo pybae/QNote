@@ -1,4 +1,4 @@
-#include <QNote.h>
+#include <qnote.h>
 #include <ui_QNote.h>
 
 #include <fileviewmodel.h>
