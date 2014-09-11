@@ -1,5 +1,16 @@
-#include "qnotetest.h"
+#include "testqnote.h"
+#include "qnote.h"
 
-QNoteTest::QNoteTest()
+void TestQNote::initTestCase()
 {
+    QNote w;
+    w.setup();
+    w.show();
+
+    return;
+}
+
+void TestQNote::cleanupTestCase()
+{
+    return;
 }

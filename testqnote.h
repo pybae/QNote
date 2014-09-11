@@ -1,10 +1,18 @@
-#ifndef QNOTETEST_H
-#define QNOTETEST_H
+#ifndef TESTQNOTE_H
+#define TESTQNOTE_H
 
-class QNoteTest
+#include "qnote.h"
+
+class TestQNote : public QObject
 {
-public:
-    QNoteTest();
+    Q_OBJECT
+
+private slots:
+    // Initializes the variables for the tests
+    void initTestCase();
+
+    // Cleans (recycles) variables used in the tests
+    void cleanupTestCase();
 };
 
-#endif // QNOTETEST_H
+#endif // TESTQNOTE_H
