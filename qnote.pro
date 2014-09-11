@@ -14,11 +14,11 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
     fileviewmodel.cpp \
-    QNote.cpp
+    qnote.cpp
 
 HEADERS  += \
     fileviewmodel.h \
-    QNote.h
+    qnote.h
 
 FORMS    += \
-    QNote.ui
+    qnote.ui
