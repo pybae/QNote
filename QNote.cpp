@@ -69,6 +69,8 @@ void QNote::on_actionNew_triggered()
 {
     QString fileName = QFileDialog::getSaveFileName(this, tr("New File"), parentDir.absolutePath(),
             tr("All Files (*);;Text Files (*.txt);;RTF Files(*.rtf);;C++ Files (*.cpp *.h)"));
+    if (fileName.isEmpty())
+        return;
     currentFileName = fileName;
     ui->mainTextEdit->clear();
 
