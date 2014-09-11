@@ -23,7 +23,7 @@ private:
     QDir parent_dir;
     FileViewModel *fileModel;
     void saveFile(QString fileName);
-    void readInDefaultDirectory();
+    QDir readInDefaultDirectory();
     void updateDate();
     void updateListViewSelection(QString fileName);
 

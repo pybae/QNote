@@ -16,7 +16,7 @@ QNote::QNote(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::QNote)
 {
-    parent_dir = QNoteLib::readInDefaultDirectory(this);
+    parent_dir = readInDefaultDirectory();
     QStringList files = parent_dir.entryList(QDir::AllEntries | QDir::NoDotAndDotDot);
     ui->setupUi(this);
     fileModel = new FileViewModel(files, 0);
@@ -29,9 +29,44 @@ QNote::~QNote()
 }
 
 // A helper method to read in the default directory
-void QNote::readInDefaultDirectory()
+QDir QNote::readInDefaultDirectory()
 {
+    QFile metadata(QDir::homePath() + QDir::separator() + ".notetakinginfo");
+    QDir parent_dir;
+    if (!metadata.exists()) {
+        QMessageBox::warning(this, tr("No default directory found"), tr("Please choose a default directory"));
 
+        QFileDialog dlg(this, tr("Default directory"));
+        QString working_dir_name = dlg.getExistingDirectory(this, tr("Default directory"),
+                                                            QDir::homePath(),
+                                                            QFileDialog::ShowDirsOnly
+                                                            | QFileDialog::DontResolveSymlinks);
+        if (!working_dir_name.isEmpty())
+            parent_dir = QDir(working_dir_name);
+        else {
+            QMessageBox::critical(this, tr("No default directory"), tr(""));
+            exit(0);
+        }
+        if (!metadata.open(QIODevice::WriteOnly)) {
+            QMessageBox::critical(this, tr("Error"), tr("Could not write to file"));
+            exit(0);
+        } else {
+            QTextStream stream(&metadata);
+            stream << parent_dir.absolutePath() << "\n";
+            stream.flush();
+            metadata.close();
+        }
+    }
+    else {
+        if (!metadata.open(QIODevice::ReadOnly)) {
+            QMessageBox::critical(this, tr("Error"), tr("Could not read file"));
+            exit(0);
+        }
+        QTextStream in(&metadata);
+        parent_dir = QDir(in.readLine());
+        metadata.close();
+    }
+    return parent_dir;
 }
 
 // A helper method to save a file, given a fileName in the current working directory
