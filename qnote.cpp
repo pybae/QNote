@@ -157,10 +157,11 @@ void QNote::on_actionExit_triggered()
 // TODO figure out how frequently this method is called
 void QNote::on_mainTextEdit_textChanged()
 {
-    // Save the current buffer
     QFile file(currentFileName);
-    qDebug() << ui->mainTextEdit->toPlainText();
-    //saveFile(file);
+//    qDebug() << (*(ui->mainTextEdit->toPlainText().end() - 1) == ' ');
+//    qDebug() << (*(ui->mainTextEdit->toPlainText().end() - 1) == 10);
+    QStringList list = ui->mainTextEdit->toPlainText().split(QRegExp("\\W+"));
+    qDebug() << list;
 }
 
 void QNote::on_listView_clicked(const QModelIndex &index)
