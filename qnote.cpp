@@ -15,7 +15,7 @@
 #include <QLabel>
 #include <QBuffer>
 
-#include "/usr/local/include/hunspell/hunspell.hxx"
+//#include "/usr/local/include/hunspell/hunspell.hxx"
 
 
 QNote::QNote(QWidget *parent) :
