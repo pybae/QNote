@@ -23,8 +23,6 @@ HEADERS += qnote.h\
 FORMS += qnote.ui
 
 unix {
-    message(Inside unix scope)
     target.path = /usr/lib
-    target.files += $$OUT_PWD/*.dylib
     INSTALLS += target
 }
