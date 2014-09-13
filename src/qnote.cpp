@@ -1,9 +1,10 @@
-#include <qnote.h>
-#include <ui_qnote.h>
+#include "qnote.h"
+#include "ui_qnote.h"
+#include "fileviewmodel.h"
 
-#include <fileviewmodel.h>
 #include <cassert>
 
+#include <QtWidgets>
 #include <QFileDialog>
 #include <QFile>
 #include <QMessageBox>

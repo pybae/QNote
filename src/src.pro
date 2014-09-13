@@ -1,23 +1,28 @@
 #-------------------------------------------------
 #
-# Project created by QtCreator 2014-09-02T16:07:14
+# Project created by QtCreator 2014-09-12T22:25:14
 #
 #-------------------------------------------------
 
-QT       += core gui printsupport
+QT       += widgets declarative
 
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+greaterThan(QT_MAJOR_VERSION, 4): QT += printsupport
 
-TARGET = notetaking
-TEMPLATE = app
+TARGET = src
+TEMPLATE = lib
 
-SOURCES += main.cpp\
-    fileviewmodel.cpp \
-    qnote.cpp
+DEFINES += SRC_LIBRARY
 
-HEADERS  += \
-    fileviewmodel.h \
-    qnote.h
+SOURCES += qnote.cpp \
+    fileviewmodel.cpp
 
-FORMS    += \
-    qnote.ui
+HEADERS += qnote.h\
+        src_global.h \
+        fileviewmodel.h
+
+FORMS += qnote.ui
+
+unix {
+    target.path = /usr/lib
+    INSTALLS += target
+}

@@ -1,21 +1,19 @@
-#ifndef NOTEPAD_H
-#define NOTEPAD_H
+#ifndef QNOTE_H
+#define QNOTE_H
+
+#include "src_global.h"
+#include "fileviewmodel.h"
 
 #include <QMainWindow>
 #include <QDir>
 #include <QBuffer>
-#include "fileviewmodel.h"
 
 namespace Ui {
 class QNote;
 }
 
-// The main class and core of the application
-// QNote serves as an interface to the Ui and does most of the processing
-// for user input as well
-class QNote : public QMainWindow
+class SRCSHARED_EXPORT QNote : public QMainWindow
 {
-    Q_OBJECT
 
 public:
     // Constructs a QNote instance
@@ -69,4 +67,4 @@ private slots:
     void on_listView_clicked(const QModelIndex &index);
 };
 
-#endif // NOTEPAD_H
+#endif // QNOTE_H
