@@ -8,7 +8,7 @@ QT       += widgets declarative
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += printsupport
 
-TARGET = src
+TARGET = qnote
 TEMPLATE = lib
 
 DEFINES += SRC_LIBRARY
@@ -23,6 +23,8 @@ HEADERS += qnote.h\
 FORMS += qnote.ui
 
 unix {
+    message(Inside unix scope)
     target.path = /usr/lib
+    target.files += $$OUT_PWD/*.dylib
     INSTALLS += target
 }
