@@ -1,4 +1,5 @@
 #include "qnote.h"
+#include "src_global.h"
 #include <QApplication>
 
 int main(int argc, char *argv[])

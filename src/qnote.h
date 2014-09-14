@@ -16,6 +16,8 @@ class SRCSHARED_EXPORT QNote : public QMainWindow
 {
 
 public:
+    Ui::QNote *ui;                    // The main Ui of the class
+
     // Constructs a QNote instance
     // note that most of the actual initializiations are done in setup
     explicit QNote(QWidget *parent = 0);
@@ -27,7 +29,6 @@ public:
     void setup();
 
 private:
-    Ui::QNote *ui;                    // The main Ui of the class
     QString currentFileName;          // the current file displayed (absolute path)
     QDir parentDir;                   // the main parent directory of all the files
     FileViewModel *fileModel;         // the fileModel for the listView
