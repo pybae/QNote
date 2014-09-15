@@ -17,7 +17,6 @@
 
 //#include "/usr/local/include/hunspell/hunspell.hxx"
 
-
 QNote::QNote(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::QNote)
@@ -159,15 +158,14 @@ void QNote::on_mainTextEdit_textChanged()
 {
     // Save the current buffer
     QFile file(currentFileName);
-    qDebug() << ui->mainTextEdit->toPlainText();
+    // qDebug() << ui->mainTextEdit->toPlainText();
     //saveFile(file);
 }
 
 void QNote::on_listView_clicked(const QModelIndex &index)
 {
-    // Same as the comment in the New-slot, should only save when changes have been made
+    // Same as the comment in the New-slot, should only save when changes   have been made
     //    saveFile(currentFileName);
-
     QString fileName = parentDir.absoluteFilePath(fileModel->data(index).toString());
     if (!fileName.isEmpty()) {
         QFile file(fileName);
