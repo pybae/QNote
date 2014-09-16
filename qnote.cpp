@@ -156,7 +156,6 @@ void QNote::on_actionExit_triggered()
 // TODO figure out how frequently this method is called
 void QNote::on_mainTextEdit_textChanged()
 {
-    // Save the current buffer
     QFile file(currentFileName);
     // qDebug() << ui->mainTextEdit->toPlainText();
     //saveFile(file);
