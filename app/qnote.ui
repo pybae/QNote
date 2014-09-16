@@ -84,7 +84,7 @@
       <item>
        <layout class="QVBoxLayout" name="textRegion" stretch="0,0,0">
         <property name="spacing">
-         <number>-1</number>
+         <number>6</number>
         </property>
         <item>
          <widget class="QLineEdit" name="titleEdit">
@@ -146,7 +146,7 @@
      <x>0</x>
      <y>0</y>
      <width>650</width>
-     <height>22</height>
+     <height>20</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -188,7 +188,7 @@
     <string>New</string>
    </property>
    <property name="toolTip">
-    <string>New Note File</string>
+    <string>New Note</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+N</string>
@@ -199,7 +199,7 @@
     <string>Open</string>
    </property>
    <property name="toolTip">
-    <string>Open Note File</string>
+    <string>Open Note</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+O</string>
@@ -210,7 +210,7 @@
     <string>Save</string>
    </property>
    <property name="toolTip">
-    <string>Save Note File</string>
+    <string>Save Note</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+S</string>
@@ -218,10 +218,10 @@
   </action>
   <action name="actionSaveAs">
    <property name="text">
-    <string>Save As</string>
+    <string>Save As Note</string>
    </property>
    <property name="toolTip">
-    <string>Save As Other Note File</string>
+    <string>Save As</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+Shift+S</string>
@@ -241,26 +241,6 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+Q</string>
-   </property>
-  </action>
-  <action name="actionThat">
-   <property name="text">
-    <string>That</string>
-   </property>
-  </action>
-  <action name="actionIs">
-   <property name="text">
-    <string>is </string>
-   </property>
-  </action>
-  <action name="actionIt">
-   <property name="text">
-    <string>it</string>
-   </property>
-  </action>
-  <action name="actionHello_World">
-   <property name="text">
-    <string>Hello World</string>
    </property>
   </action>
   <action name="actionAbout">

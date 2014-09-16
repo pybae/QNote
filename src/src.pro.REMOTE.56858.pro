@@ -13,11 +13,15 @@ TEMPLATE = lib
 
 DEFINES += SRC_LIBRARY
 
-SOURCES += fileviewmodel.cpp
+SOURCES += qnote.cpp \
+    fileviewmodel.cpp
 
-HEADERS += fileviewmodel.h \
-           src_global.h \
-        
+HEADERS += qnote.h\
+        src_global.h \
+        fileviewmodel.h
+
+FORMS += qnote.ui
+
 unix {
     target.path = /usr/lib
     INSTALLS += target

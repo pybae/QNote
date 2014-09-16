@@ -4,9 +4,15 @@
 #
 #-------------------------------------------------
 
+<<<<<<< HEAD
+QT       += core gui
+
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+=======
 QT       += core gui declarative
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets printsupport
+>>>>>>> 159ab8a379796c7f302a1228572e1dbac86cb8eb
 
 TARGET = qnote
 TEMPLATE = lib

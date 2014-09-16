@@ -197,6 +197,7 @@ void QNote::on_listView_clicked(const QModelIndex &index)
 // Called as a simple about section
 void QNote::on_actionAbout_triggered()
 {
+    qDebug("inside about slot");
     QString abouttext = tr("<h1>Notetaking</h1>");
 
     abouttext.append(tr("<p><b>Easy - Intuitive -Anywhere</b></p>"));
