@@ -1,7 +1,6 @@
 #ifndef QNOTE_H
 #define QNOTE_H
 
-#include "src_global.h"
 #include "fileviewmodel.h"
 
 #include <QMainWindow>
@@ -12,7 +11,7 @@ namespace Ui {
 class QNote;
 }
 
-class SRCSHARED_EXPORT QNote : public QMainWindow
+class QNote : public QMainWindow
 {
 
 public:

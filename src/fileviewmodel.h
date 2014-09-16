@@ -1,10 +1,12 @@
 #ifndef FILEVIEWMODEL_H
 #define FILEVIEWMODEL_H
 
+#include "src_global.h"
+
 #include <QAbstractListModel>
 #include <QMainWindow>
 
-class FileViewModel : public QAbstractListModel
+class SRCSHARED_EXPORT FileViewModel : public QAbstractListModel
 {
     Q_OBJECT
 

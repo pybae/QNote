@@ -8,10 +8,16 @@ QT       += core gui printsupport
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
+TARGET   = QNote
 TEMPLATE = app
-CONFIG += qt
+CONFIG  += qt
 
-SOURCES += main.cpp
+SOURCES += main.cpp \
+           qnote.cpp
+           
+HEADERS += qnote.h
+
+FORMS   += qnote.ui
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../src/release/ -lqnote
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../src/debug/ -lqnote

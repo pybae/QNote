@@ -4,24 +4,20 @@
 #
 #-------------------------------------------------
 
-QT       += widgets declarative
+QT       += core gui
 
-greaterThan(QT_MAJOR_VERSION, 4): QT += printsupport
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = qnote
 TEMPLATE = lib
 
 DEFINES += SRC_LIBRARY
 
-SOURCES += qnote.cpp \
-    fileviewmodel.cpp
+SOURCES += fileviewmodel.cpp
 
-HEADERS += qnote.h\
-        src_global.h \
-        fileviewmodel.h
-
-FORMS += qnote.ui
-
+HEADERS += fileviewmodel.h \
+           src_global.h \
+        
 unix {
     target.path = /usr/lib
     INSTALLS += target
