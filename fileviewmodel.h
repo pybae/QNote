@@ -1,11 +1,10 @@
-ifndef FILEVIEWMODEL_H
+#ifndef FILEVIEWMODEL_H
 #define FILEVIEWMODEL_H
 
 #include <QAbstractListModel>
 
 #include <QMainWindow>
-class FileViewModel : public QAbstractListModel
-
+class FileViewModel : public QAbstractListModel {
     Q_OBJECT
 
 public:
