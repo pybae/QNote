@@ -1,6 +1,7 @@
 #include "qnote.h"
 #include "src_global.h"
 #include <QApplication>
+#include <QDebug>
 
 int main(int argc, char *argv[])
 {
